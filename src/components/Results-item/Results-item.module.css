@@ -1,0 +1,27 @@
+.item {
+  padding: 1rem;
+  font-weight: 900;
+  font-size: 1.3rem;
+  color: #3e326a;
+  max-width: 18.75rem;
+  background-color: white;
+  width: 100%;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  flex-direction: column;
+  display: flex;
+  row-gap: 0.2rem;
+  transition: all 0.15s ease-out;
+}
+
+.item:hover {
+  background-color: #c7a2d8db;
+}
+
+.item__property {
+  font-weight: 400;
+  font-size: 1.2rem;
+  color: #555555;
+  text-align: start;
+}

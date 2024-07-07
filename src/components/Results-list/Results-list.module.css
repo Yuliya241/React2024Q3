@@ -1,0 +1,12 @@
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.empty {
+  padding: 5rem 0;
+  font-size: 1.5rem;
+  color: #84e9e2;
+  font-weight: 900;
+}
