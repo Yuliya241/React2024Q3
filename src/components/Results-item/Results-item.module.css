@@ -1,0 +1,10 @@
+.item {
+  background-color: white;
+  padding: 5px;
+  font-weight: 900;
+}
+
+.item__property {
+  list-style: none;
+  font-weight: 400;
+}
