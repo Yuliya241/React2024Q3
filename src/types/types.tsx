@@ -5,6 +5,7 @@ export type SearchResultsState = {
   searchValue: string | null;
   searchResults: Item[];
   error: Error | null;
+  isLoading: boolean;
 };
 
 export type SearchProps = {

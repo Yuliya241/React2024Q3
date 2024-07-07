@@ -7,9 +7,15 @@ export default class ResultsList extends Component<{ data: Item[] }> {
   render() {
     return (
       <div className={styles.wrapper}>
-        {this.props.data.map((item: Item) => {
-          return <ResultsItem item={item} key={item.url} />;
-        })}
+        {this.props.data.length ? (
+          <div>
+            {this.props.data.map((item: Item) => (
+              <ResultsItem item={item} key={item.url} />
+            ))}
+          </div>
+        ) : (
+          <p>Nothing Found</p>
+        )}
       </div>
     );
   }
