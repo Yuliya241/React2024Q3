@@ -1,4 +1,4 @@
-import { Component, ErrorInfo } from 'react';
+import { Component } from 'react';
 import { Props, State } from '../../types/types';
 import { ErrorBoundaryValues } from '../../enums/enums';
 import styles from './ErrorBoundary.module.css';
@@ -12,8 +12,8 @@ export default class ErrorBoundary extends Component<Props, State> {
     return { hasError: true };
   }
 
-  public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error(ErrorBoundaryValues.consoleError, error, errorInfo);
+  public componentDidCatch(error: Error) {
+    console.log(ErrorBoundaryValues.consoleError, error.message);
   }
 
   public render() {

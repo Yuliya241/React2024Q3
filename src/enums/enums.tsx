@@ -3,7 +3,7 @@ export const enum LocalStorageKey {
 }
 
 export const enum ErrorBoundaryValues {
-  message = 'Oops, something went wrong! It is an test error',
+  message = 'It is an test error',
   consoleError = 'ErrorBoundary caught an error:',
 }
 
