@@ -14,7 +14,7 @@ export default class ResultsList extends Component<{ data: Item[] }> {
             ))}
           </div>
         ) : (
-          <p>Nothing Found</p>
+          <p className={styles.empty}>Nothing Found...</p>
         )}
       </>
     );

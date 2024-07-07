@@ -5,6 +5,7 @@ import { Api, LocalStorageKey } from '../../enums/enums';
 import { SearchResultsState } from '../../types/types';
 import Spinner from '../Spinner/Spinner';
 import ErrorBoundaryButton from '../ErrorBoundaryButton/ErrorBoundaryButton';
+import styles from './Main.module.css';
 
 const localStorageKey = localStorage.getItem(LocalStorageKey.KEY);
 
@@ -52,7 +53,8 @@ export default class Main extends Component {
 
   render() {
     return (
-      <main>
+      <main className={styles.main}>
+        <ErrorBoundaryButton />
         <SearchBar
           handleChange={this.handleChange}
           searchTerm={this.state.searchValue || ''}
@@ -63,7 +65,6 @@ export default class Main extends Component {
         ) : (
           <ResultsList data={this.state.searchResults} />
         )}
-        <ErrorBoundaryButton />
       </main>
     );
   }

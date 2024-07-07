@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { ErrorBoundaryValues } from '../../enums/enums';
+import styles from './ErrorBoundaryButton.module.css';
 
 export default class ErrorBoundaryButton extends Component {
   state = {
@@ -13,6 +14,10 @@ export default class ErrorBoundaryButton extends Component {
       throw new Error(ErrorBoundaryValues.message);
     }
 
-    return <button onClick={this.throwErrorClick}>Throw Error</button>;
+    return (
+      <button className={styles.button__error} onClick={this.throwErrorClick}>
+        Throw Error
+      </button>
+    );
   }
 }
