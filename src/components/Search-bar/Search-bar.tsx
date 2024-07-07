@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { SearchProps } from '../../types/types';
 
 export default class SearchBar extends Component<SearchProps> {
-  render() {
+  public render() {
     return (
       <form onSubmit={this.props.handleSubmit}>
         <label htmlFor="name">Search by name</label>

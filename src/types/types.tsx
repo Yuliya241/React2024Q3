@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent } from 'react';
+import { ChangeEvent, FormEvent, ReactNode } from 'react';
 import { Item } from '../interfaces/interfaces';
 
 export type SearchResultsState = {
@@ -12,4 +12,12 @@ export type SearchProps = {
   searchTerm: string;
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
+};
+
+export type Props = {
+  children?: ReactNode;
+};
+
+export type State = {
+  hasError: boolean;
 };

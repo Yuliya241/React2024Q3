@@ -4,11 +4,11 @@ import ResultsItem from '../Results-item/Results-item';
 import styles from './Results-list.module.css';
 
 export default class ResultsList extends Component<{ data: Item[] }> {
-  render() {
+  public render() {
     return (
-      <div className={styles.wrapper}>
+      <>
         {this.props.data.length ? (
-          <div>
+          <div className={styles.wrapper}>
             {this.props.data.map((item: Item) => (
               <ResultsItem item={item} key={item.url} />
             ))}
@@ -16,7 +16,7 @@ export default class ResultsList extends Component<{ data: Item[] }> {
         ) : (
           <p>Nothing Found</p>
         )}
-      </div>
+      </>
     );
   }
 }

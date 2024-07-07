@@ -3,7 +3,7 @@ import { Item } from '../../interfaces/interfaces';
 import styles from './Results-item.module.css';
 
 export default class ResultsItem extends Component<{ item: Item }> {
-  render() {
+  public render() {
     const { item } = this.props;
     return (
       <ul className={styles.item}>
