@@ -1,10 +1,10 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import SearchBar from '../Search-bar/Search-bar';
-import ResultsList from '../Results-list/Results-list';
+import SearchBar from '../../components/Search-bar/Search-bar';
+import ResultsList from '../../components/Results-list/Results-list';
 import { Api, LocalStorageKey } from '../../enums/enums';
-import Spinner from '../Spinner/Spinner';
-import ErrorBoundaryButton from '../ErrorBoundaryButton/ErrorBoundaryButton';
-import styles from './Main.module.css';
+import Spinner from '../../components/Spinner/Spinner';
+import ErrorBoundaryButton from '../../components/ErrorBoundaryButton/ErrorBoundaryButton';
+import styles from './Home.module.css';
 import { Item } from '../../interfaces/interfaces';
 
 const localStorageKey = localStorage.getItem(LocalStorageKey.KEY);
