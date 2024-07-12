@@ -20,6 +20,6 @@ export type State = {
 };
 
 export type PaginationProps = {
-  currentPage: number;
-  setCurrentPage: (x: number) => void;
+  currentPage: string;
+  setCurrentPage: (x: string) => void;
 };

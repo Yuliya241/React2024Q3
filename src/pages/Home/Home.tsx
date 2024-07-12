@@ -7,17 +7,22 @@ import ErrorBoundaryButton from '../../components/ErrorBoundaryButton/ErrorBound
 import styles from './Home.module.css';
 import { Item } from '../../interfaces/interfaces';
 import Pagination from '../../components/Pagination/Pagination';
+import { useSearchParams } from 'react-router-dom';
 
 const localStorageKey = localStorage.getItem(LocalStorageKey.KEY);
+const initialPage = '1';
 
 export default function Main() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [searchValue, setSearchValue] = useState<string>(
-    localStorageKey ? localStorageKey : ''
+    searchParams.get('search') || localStorageKey || ''
   );
   const [, setError] = useState<unknown>();
   const [searchResults, setsearchResults] = useState<Item[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [page, setPage] = useState<number>(1);
+  const [page, setPage] = useState<string>(
+    searchParams.get('page') || initialPage
+  );
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setSearchValue(event.target.value);
@@ -27,7 +32,7 @@ export default function Main() {
     event.preventDefault();
     localStorage.setItem(LocalStorageKey.KEY, searchValue || '');
     getSearchResults();
-    setPage(1);
+    setPage(initialPage);
   };
 
   const getSearchResults = async () => {
@@ -46,6 +51,7 @@ export default function Main() {
       const data = await results.json();
       setIsLoading(false);
       setsearchResults(data.results);
+      setSearchParams({ searchValue, page });
     } catch (error) {
       setError(error);
     }

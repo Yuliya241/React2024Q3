@@ -14,11 +14,11 @@ const Pagination = ({ setCurrentPage, currentPage }: PaginationProps) => {
         return (
           <button
             className={
-              page == currentPage
+              page.toString() == currentPage
                 ? `${styles.button} ${styles.active} `
                 : styles.button
             }
-            onClick={() => setCurrentPage(page)}
+            onClick={() => setCurrentPage(page.toString())}
             key={i}
           >
             {page}
