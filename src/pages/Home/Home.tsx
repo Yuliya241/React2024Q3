@@ -6,6 +6,7 @@ import Spinner from '../../components/Spinner/Spinner';
 import ErrorBoundaryButton from '../../components/ErrorBoundaryButton/ErrorBoundaryButton';
 import styles from './Home.module.css';
 import { Item } from '../../interfaces/interfaces';
+import Pagination from '../../components/Pagination/Pagination';
 
 const localStorageKey = localStorage.getItem(LocalStorageKey.KEY);
 
@@ -16,6 +17,7 @@ export default function Main() {
   const [, setError] = useState<unknown>();
   const [searchResults, setsearchResults] = useState<Item[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setSearchValue(event.target.value);
@@ -25,13 +27,14 @@ export default function Main() {
     event.preventDefault();
     localStorage.setItem(LocalStorageKey.KEY, searchValue || '');
     getSearchResults();
+    setPage(1);
   };
 
   const getSearchResults = async () => {
     try {
       setIsLoading(true);
       const results = await fetch(
-        `${Api.url}?search=${searchValue?.trim()}&page=1
+        `${Api.url}?search=${searchValue?.trim()}&page=${page}
         `,
         {
           method: 'GET',
@@ -52,7 +55,7 @@ export default function Main() {
     getSearchResults();
     // eslint-disable-next-line react-compiler/react-compiler
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [page]);
 
   return (
     <main className={styles.main}>
@@ -63,6 +66,9 @@ export default function Main() {
         handleSubmit={handleSubmit}
       />
       {isLoading ? <Spinner /> : <ResultsList data={searchResults} />}
+      {!isLoading && <ResultsList data={searchResults} /> ? (
+        <Pagination setCurrentPage={setPage} currentPage={page} />
+      ) : null}
     </main>
   );
 }

@@ -18,3 +18,8 @@ export type Props = {
 export type State = {
   hasError: boolean;
 };
+
+export type PaginationProps = {
+  currentPage: number;
+  setCurrentPage: (x: number) => void;
+};
