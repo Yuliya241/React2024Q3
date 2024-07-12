@@ -1,37 +1,37 @@
-import { ChangeEvent, Component, FormEvent } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import SearchBar from '../Search-bar/Search-bar';
 import ResultsList from '../Results-list/Results-list';
 import { Api, LocalStorageKey } from '../../enums/enums';
-import { SearchResultsState } from '../../types/types';
 import Spinner from '../Spinner/Spinner';
 import ErrorBoundaryButton from '../ErrorBoundaryButton/ErrorBoundaryButton';
 import styles from './Main.module.css';
+import { Item } from '../../interfaces/interfaces';
 
 const localStorageKey = localStorage.getItem(LocalStorageKey.KEY);
 
-export default class Main extends Component {
-  state: SearchResultsState = {
-    searchValue: localStorageKey ? localStorageKey : '',
-    searchResults: [],
-    error: null,
-    isLoading: false,
+export default function Main() {
+  const [searchValue, setSearchValue] = useState<string>(
+    localStorageKey ? localStorageKey : ''
+  );
+  const [, setError] = useState<unknown>();
+  const [searchResults, setsearchResults] = useState<Item[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    setSearchValue(event.target.value);
   };
 
-  private handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    this.setState({ searchValue: event.target.value });
-  };
-
-  private handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    localStorage.setItem(LocalStorageKey.KEY, this.state.searchValue || '');
-    this.getSearchResults();
+    localStorage.setItem(LocalStorageKey.KEY, searchValue || '');
+    getSearchResults();
   };
 
-  private getSearchResults = async () => {
+  const getSearchResults = async () => {
     try {
-      this.setState({ isLoading: true });
+      setIsLoading(true);
       const results = await fetch(
-        `${Api.url}?search=${this.state.searchValue?.trim()}&page=1
+        `${Api.url}?search=${searchValue?.trim()}&page=1
         `,
         {
           method: 'GET',
@@ -41,31 +41,28 @@ export default class Main extends Component {
         }
       );
       const data = await results.json();
-      this.setState({ searchResults: data.results, isLoading: false });
+      setIsLoading(false);
+      setsearchResults(data.results);
     } catch (error) {
-      this.setState({ error: error });
+      setError(error);
     }
   };
 
-  public componentDidMount(): void {
-    this.getSearchResults();
-  }
+  useEffect(() => {
+    getSearchResults();
+    // eslint-disable-next-line react-compiler/react-compiler
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  render() {
-    return (
-      <main className={styles.main}>
-        <ErrorBoundaryButton />
-        <SearchBar
-          handleChange={this.handleChange}
-          searchTerm={this.state.searchValue || ''}
-          handleSubmit={this.handleSubmit}
-        />
-        {this.state.isLoading ? (
-          <Spinner />
-        ) : (
-          <ResultsList data={this.state.searchResults} />
-        )}
-      </main>
-    );
-  }
+  return (
+    <main className={styles.main}>
+      <ErrorBoundaryButton />
+      <SearchBar
+        handleChange={handleChange}
+        searchTerm={searchValue || ''}
+        handleSubmit={handleSubmit}
+      />
+      {isLoading ? <Spinner /> : <ResultsList data={searchResults} />}
+    </main>
+  );
 }

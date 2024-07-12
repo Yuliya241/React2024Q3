@@ -1,11 +1,8 @@
 import { ChangeEvent, FormEvent, ReactNode } from 'react';
 import { Item } from '../interfaces/interfaces';
 
-export type SearchResultsState = {
-  searchValue: string | null;
-  searchResults: Item[];
-  error: Error | null;
-  isLoading: boolean;
+export type SearchResultsProps = {
+  data: Item[];
 };
 
 export type SearchProps = {
