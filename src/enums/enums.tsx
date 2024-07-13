@@ -1,5 +1,5 @@
 export const enum LocalStorageKey {
-  KEY = 'search-value',
+  KEY = 'search',
 }
 
 export const enum ErrorBoundaryValues {

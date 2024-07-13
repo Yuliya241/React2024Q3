@@ -29,3 +29,11 @@
 .button.active:hover {
   background-color: #f082ac;
 }
+
+.button[disabled] {
+  border: 1px solid black;
+  background-color: grey;
+  color: white;
+  padding: 15px;
+  cursor: not-allowed;
+}

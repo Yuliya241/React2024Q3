@@ -1,8 +1,8 @@
 import { ChangeEvent, FormEvent, ReactNode } from 'react';
-import { Item } from '../interfaces/interfaces';
+import { Person } from '../interfaces/interfaces';
 
 export type SearchResultsProps = {
-  data: Item[];
+  data: Person[];
 };
 
 export type SearchProps = {
@@ -21,5 +21,5 @@ export type State = {
 
 export type PaginationProps = {
   currentPage: string;
-  setCurrentPage: (x: string) => void;
+  setCurrentPage: (page: string) => void;
 };

@@ -1,9 +1,9 @@
-.item {
+.item__wrapper {
   padding: 1rem;
   font-weight: 900;
   font-size: 1.3rem;
   color: #3e326a;
-  min-width: 18rem;
+  max-width: 18rem;
   background-color: white;
   width: 100%;
   margin-bottom: 1rem;
@@ -15,7 +15,7 @@
   transition: all 0.15s ease-out;
 }
 
-.item:hover {
+.item__wrapper:hover {
   background-color: #c7a2d8db;
 }
 
@@ -24,8 +24,4 @@
   font-size: 1.2rem;
   color: #555555;
   text-align: start;
-}
-
-.link {
-  text-decoration: none;
 }

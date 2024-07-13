@@ -5,41 +5,47 @@ import { Api, LocalStorageKey } from '../../enums/enums';
 import Spinner from '../../components/Spinner/Spinner';
 import ErrorBoundaryButton from '../../components/ErrorBoundaryButton/ErrorBoundaryButton';
 import styles from './Home.module.css';
-import { Item } from '../../interfaces/interfaces';
+import { Person } from '../../interfaces/interfaces';
 import Pagination from '../../components/Pagination/Pagination';
-import { useSearchParams } from 'react-router-dom';
+import { Outlet, useSearchParams } from 'react-router-dom';
 
 const localStorageKey = localStorage.getItem(LocalStorageKey.KEY);
 const initialPage = '1';
 
 export default function Main() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchValue, setSearchValue] = useState<string>(
+  const [search, setSearch] = useState<string>(
     searchParams.get('search') || localStorageKey || ''
   );
   const [, setError] = useState<unknown>();
-  const [searchResults, setsearchResults] = useState<Item[]>([]);
+  const [searchResults, setsearchResults] = useState<Person[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [page, setPage] = useState<string>(
-    searchParams.get('page') || initialPage
-  );
+  const [page, setPage] = useState(searchParams.get('page') || initialPage);
+
+  useEffect(() => {
+    setSearchParams({ search, page });
+    getAllResults();
+    // eslint-disable-next-line react-compiler/react-compiler
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    setSearchValue(event.target.value);
+    setSearch(event.target.value.trim());
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    localStorage.setItem(LocalStorageKey.KEY, searchValue || '');
-    getSearchResults();
-    setPage(initialPage);
+    localStorage.setItem(LocalStorageKey.KEY, search || '');
+    setPage(initialPage || '');
+    setSearchParams({ search, page });
+    searchData();
   };
 
-  const getSearchResults = async () => {
+  const searchData = async () => {
     try {
       setIsLoading(true);
       const results = await fetch(
-        `${Api.url}?search=${searchValue?.trim()}&page=${page}
+        `${Api.url}?search=${search}&page=${initialPage}
         `,
         {
           method: 'GET',
@@ -51,30 +57,51 @@ export default function Main() {
       const data = await results.json();
       setIsLoading(false);
       setsearchResults(data.results);
-      setSearchParams({ searchValue, page });
     } catch (error) {
       setError(error);
     }
   };
 
-  useEffect(() => {
-    getSearchResults();
-    // eslint-disable-next-line react-compiler/react-compiler
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+  const getAllResults = async () => {
+    try {
+      setIsLoading(true);
+      const results = await fetch(
+        `${Api.url}?search=${search}&page=${page}
+        `,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      const data = await results.json();
+      setIsLoading(false);
+      setsearchResults(data.results);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <main className={styles.main}>
       <ErrorBoundaryButton />
       <SearchBar
         handleChange={handleChange}
-        searchTerm={searchValue || ''}
+        searchTerm={search}
         handleSubmit={handleSubmit}
       />
-      {isLoading ? <Spinner /> : <ResultsList data={searchResults} />}
-      {!isLoading && <ResultsList data={searchResults} /> ? (
-        <Pagination setCurrentPage={setPage} currentPage={page} />
-      ) : null}
+      {isLoading ? (
+        <Spinner />
+      ) : searchResults ? (
+        <>
+          <ResultsList data={searchResults} />
+          <Pagination setCurrentPage={setPage} currentPage={page} />
+          <Outlet />
+        </>
+      ) : (
+        <p className={styles.empty}>Nothing Found...</p>
+      )}
     </main>
   );
 }
