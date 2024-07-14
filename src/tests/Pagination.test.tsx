@@ -17,18 +17,12 @@ describe('tests for the Pagination component', (): void => {
 
     render(<App />);
 
-    const nextPage = await screen.findByTestId('8');
+    const nextPage = await screen.findByRole('button', { name: '7' });
     await userEvent.click(nextPage);
-    await waitFor(() => expect(location.search).to.equal('?search=&page=8'));
-  });
+    await waitFor(() => expect(location.search).to.equal('?search=&page=7'));
 
-  test('it should update URL query parameter when page changes', async () => {
-    fetchMock.mockResponse(JSON.stringify(searchResults));
-
-    render(<App />);
-
-    const nextPage = await screen.findByTestId('6');
-    await userEvent.click(nextPage);
+    const prevPage = await screen.findByTestId('6');
+    await userEvent.click(prevPage);
     await waitFor(() => expect(location.search).to.equal('?search=&page=6'));
   });
 });
