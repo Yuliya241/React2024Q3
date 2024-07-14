@@ -13,6 +13,7 @@ const Pagination = ({ setCurrentPage, currentPage }: PaginationProps) => {
   return (
     <div className={styles.pagination}>
       {pages.map((page) => {
+        console.log();
         return (
           <button
             className={
@@ -22,6 +23,7 @@ const Pagination = ({ setCurrentPage, currentPage }: PaginationProps) => {
             }
             onClick={() => setCurrentPage(page.toString())}
             key={page}
+            data-testid={page}
           >
             {page}
           </button>

@@ -66,7 +66,7 @@ export default function Detailed() {
               type="button"
               onClick={closeDetailed}
             >
-              X
+              Close
             </button>
             <p className={styles.item__name}>{person?.name}</p>
             <p className={styles.item__property}>
