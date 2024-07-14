@@ -15,9 +15,10 @@
 }
 
 .image {
-  width: 100%;
-  max-width: 16rem;
-  height: auto;
+  text-align: center;
+  color: #c04cea;
+  font-weight: 900;
+  font-size: 18rem;
 }
 
 .button {
