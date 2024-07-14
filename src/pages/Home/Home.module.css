@@ -16,11 +16,6 @@
   font-weight: 900;
 }
 
-.right {
-  flex-basis: 40%;
-  flex-grow: 0;
-}
-
 .left {
   display: flex;
   flex-direction: column;
@@ -36,10 +31,4 @@
 
 .wrapper {
   display: flex;
-}
-
-.list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
 }

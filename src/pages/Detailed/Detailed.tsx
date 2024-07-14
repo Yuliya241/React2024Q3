@@ -1,5 +1,3 @@
-/* eslint-disable react-compiler/react-compiler */
-/* eslint-disable react-hooks/rules-of-hooks */
 import { useParams } from 'react-router';
 import styles from './Detailed.module.css';
 import { useEffect, useState } from 'react';
@@ -7,14 +5,13 @@ import { Api } from '../../enums/enums';
 import { Person } from '../../interfaces/interfaces';
 import Spinner from '../../components/Spinner/Spinner';
 import { useNavigate } from 'react-router-dom';
-import { useUser } from '../Home/Home';
 
 export default function Detailed() {
   const [person, setPerson] = useState<Person>();
   const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
 
-  const [isOpen = useUser(), setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -57,7 +54,13 @@ export default function Detailed() {
         <Spinner />
       ) : (
         <div className={styles.wrapper}>
-          <div className={styles.item__card}>
+          <div
+            className={
+              isOpen
+                ? `${styles.item__card} ${styles.active}`
+                : `${styles.item__card}`
+            }
+          >
             <button
               className={styles.item__button}
               type="button"

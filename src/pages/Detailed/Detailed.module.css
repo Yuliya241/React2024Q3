@@ -15,6 +15,13 @@
   transition: all 0.15s ease-out;
 }
 
+.item__card.active {
+  align-items: center;
+  background-color: #bde9a5db;
+  padding: 5rem 1rem;
+  margin: 0 auto;
+}
+
 .item__card:hover {
   background-color: #c7a2d8db;
 }
@@ -40,6 +47,6 @@
 }
 
 .wrapper {
-  flex-basis: 50%;
+  flex-basis: 40%;
   flex-shrink: 0;
 }

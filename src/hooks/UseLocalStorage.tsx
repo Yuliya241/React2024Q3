@@ -1,20 +1,20 @@
-import { useState, useEffect } from 'react';
-import { LocalStorageKey } from '../enums/enums';
-
-export default function useLocalStorage(key: string) {
-  const localStorageKey = localStorage.getItem(LocalStorageKey.KEY);
-
-  const [term, setTerm] = useState<string>(() =>
-    localStorageKey ? localStorageKey : ''
-  );
-
-  useEffect(() => {
-    localStorage.setItem(key, term);
-  }, [term, key]);
-
-  const setItem = (val: string) => {
-    setTerm(val);
-    localStorage.setItem(key, val);
+export const useLocalStorage = (key: string) => {
+  const setItem = (value: string) => {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+      console.log(error);
+    }
   };
-  return [term, setItem];
-}
+
+  const getItem = () => {
+    try {
+      const item = localStorage.getItem(key);
+      return item ? JSON.parse(item) : undefined;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return { setItem, getItem };
+};

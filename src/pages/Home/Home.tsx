@@ -1,6 +1,5 @@
 /* eslint-disable react-compiler/react-compiler */
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react-refresh/only-export-components */
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import SearchBar from '../../components/Search-bar/Search-bar';
 import ResultsList from '../../components/Results-list/Results-list';
@@ -10,11 +9,10 @@ import ErrorBoundaryButton from '../../components/ErrorBoundaryButton/ErrorBound
 import styles from './Home.module.css';
 import { Person } from '../../interfaces/interfaces';
 import Pagination from '../../components/Pagination/Pagination';
-import { Outlet, useOutletContext, useSearchParams } from 'react-router-dom';
+import { Outlet, useSearchParams } from 'react-router-dom';
 
 const localStorageKey = localStorage.getItem(LocalStorageKey.KEY);
 const initialPage = '1';
-type ContextType = { isOpen: boolean };
 
 export default function Main() {
   const [isOpen] = useState(false);
@@ -102,22 +100,14 @@ export default function Main() {
               isOpen ? `${styles.left}` : `${styles.left} ${styles.active}`
             }
           >
-            <div className={styles.list}>
-              <ResultsList data={searchResults} />
-            </div>
+            <ResultsList data={searchResults} />
             <Pagination setCurrentPage={setPage} currentPage={page} />
           </div>
-          <div className={isOpen ? `${styles.right}` : ''}>
-            <Outlet context={{ isOpen } satisfies ContextType} />
-          </div>
+          <Outlet />
         </div>
       ) : (
         <p className={styles.empty}>Nothing Found...</p>
       )}
     </main>
   );
-}
-
-export function useUser() {
-  return useOutletContext<ContextType>();
 }
