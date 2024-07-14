@@ -1,4 +1,4 @@
-.item__wrapper {
+.item__card {
   padding: 1rem;
   font-weight: 900;
   font-size: 1.3rem;
@@ -15,7 +15,7 @@
   transition: all 0.15s ease-out;
 }
 
-.item__wrapper:hover {
+.item__card:hover {
   background-color: #c7a2d8db;
 }
 
@@ -24,4 +24,22 @@
   font-size: 1.2rem;
   color: #555555;
   text-align: start;
+}
+
+.item__button {
+  width: 1.5rem;
+  height: 1.5rem;
+  text-align: center;
+  background: #ea4c81;
+  color: #ffffff;
+  font-size: 1rem;
+  border: 2px solid #ffffff;
+  cursor: pointer;
+  align-self: flex-end;
+  transition: all 0.2s ease;
+}
+
+.wrapper {
+  flex-basis: 50%;
+  flex-shrink: 0;
 }

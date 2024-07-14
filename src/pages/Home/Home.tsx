@@ -1,3 +1,6 @@
+/* eslint-disable react-compiler/react-compiler */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-refresh/only-export-components */
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import SearchBar from '../../components/Search-bar/Search-bar';
 import ResultsList from '../../components/Results-list/Results-list';
@@ -7,12 +10,14 @@ import ErrorBoundaryButton from '../../components/ErrorBoundaryButton/ErrorBound
 import styles from './Home.module.css';
 import { Person } from '../../interfaces/interfaces';
 import Pagination from '../../components/Pagination/Pagination';
-import { Outlet, useSearchParams } from 'react-router-dom';
+import { Outlet, useOutletContext, useSearchParams } from 'react-router-dom';
 
 const localStorageKey = localStorage.getItem(LocalStorageKey.KEY);
 const initialPage = '1';
+type ContextType = { isOpen: boolean };
 
 export default function Main() {
+  const [isOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [search, setSearch] = useState<string>(
     searchParams.get('search') || localStorageKey || ''
@@ -25,8 +30,6 @@ export default function Main() {
   useEffect(() => {
     setSearchParams({ search, page });
     getAllResults();
-    // eslint-disable-next-line react-compiler/react-compiler
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -36,8 +39,7 @@ export default function Main() {
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     localStorage.setItem(LocalStorageKey.KEY, search || '');
-    setPage(initialPage || '');
-    setSearchParams({ search, page });
+    setSearchParams({ search });
     searchData();
   };
 
@@ -45,7 +47,7 @@ export default function Main() {
     try {
       setIsLoading(true);
       const results = await fetch(
-        `${Api.url}?search=${search}&page=${initialPage}
+        `${Api.url}?search=${search}
         `,
         {
           method: 'GET',
@@ -94,14 +96,28 @@ export default function Main() {
       {isLoading ? (
         <Spinner />
       ) : searchResults ? (
-        <>
-          <ResultsList data={searchResults} />
-          <Pagination setCurrentPage={setPage} currentPage={page} />
-          <Outlet />
-        </>
+        <div className={styles.wrapper}>
+          <div
+            className={
+              isOpen ? `${styles.left}` : `${styles.left} ${styles.active}`
+            }
+          >
+            <div className={styles.list}>
+              <ResultsList data={searchResults} />
+            </div>
+            <Pagination setCurrentPage={setPage} currentPage={page} />
+          </div>
+          <div className={isOpen ? `${styles.right}` : ''}>
+            <Outlet context={{ isOpen } satisfies ContextType} />
+          </div>
+        </div>
       ) : (
         <p className={styles.empty}>Nothing Found...</p>
       )}
     </main>
   );
+}
+
+export function useUser() {
+  return useOutletContext<ContextType>();
 }

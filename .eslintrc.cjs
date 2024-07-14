@@ -23,5 +23,6 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'error',
     'react-compiler/react-compiler': 'error',
     'prettier/prettier': 'error',
+    'eslint no-unused-vars': 'off'
   },
 };

@@ -7,7 +7,7 @@ export default function ResultsItem(props: Person) {
   const id = url.split('/').filter(Boolean).slice(-1).join('');
 
   return (
-    <Link to={`/${id}`} className={styles.link}>
+    <Link to={`details/${id}`} className={styles.link}>
       <div className={styles.item}>
         {name}
         <p className={styles.item__property}>Birth year: {birth_year}</p>

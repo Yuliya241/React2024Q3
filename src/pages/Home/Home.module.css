@@ -15,3 +15,31 @@
   color: #84e9e2;
   font-weight: 900;
 }
+
+.right {
+  flex-basis: 40%;
+  flex-grow: 0;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+}
+
+.left.active {
+  font-weight: 900;
+  flex-direction: column;
+  display: flex;
+  flex-basis: 60%;
+  flex-grow: 1;
+}
+
+.wrapper {
+  display: flex;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
