@@ -1,20 +1,15 @@
-export const useLocalStorage = (key: string) => {
-  const setItem = (value: string) => {
-    try {
-      localStorage.setItem(key, JSON.stringify(value));
-    } catch (error) {
-      console.log(error);
-    }
+import { useState } from 'react';
+import { LocalStorageKey } from '../enums/enums';
+
+export function useLocalStorage(): [string, (searchValue: string) => void] {
+  const [value, setValue] = useState(
+    localStorage.getItem(LocalStorageKey.KEY) || ''
+  );
+
+  const setSearchValue = (searchValue: string) => {
+    localStorage.setItem(LocalStorageKey.KEY, searchValue);
+    setValue(searchValue);
   };
 
-  const getItem = () => {
-    try {
-      const item = localStorage.getItem(key);
-      return item ? JSON.parse(item) : undefined;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  return { setItem, getItem };
-};
+  return [value, setSearchValue];
+}

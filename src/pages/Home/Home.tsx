@@ -3,23 +3,21 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import SearchBar from '../../components/Search-bar/Search-bar';
 import ResultsList from '../../components/Results-list/Results-list';
-import { Api, LocalStorageKey } from '../../enums/enums';
+import { Api } from '../../enums/enums';
 import Spinner from '../../components/Spinner/Spinner';
 import ErrorBoundaryButton from '../../components/ErrorBoundaryButton/ErrorBoundaryButton';
 import styles from './Home.module.css';
 import Pagination from '../../components/Pagination/Pagination';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import { PersonResponse } from '../../interfaces/interfaces';
+import { useLocalStorage } from '../../hooks/UseLocalStorage';
 
-const localStorageKey = localStorage.getItem(LocalStorageKey.KEY);
 const initialPage = 1;
 
 export default function Main() {
   const [isOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [search, setSearch] = useState<string>(
-    localStorageKey ? localStorageKey : ''
-  );
+  const [search, setSearch] = useLocalStorage();
   const [, setError] = useState<unknown>();
   const [searchResults, setsearchResults] = useState<PersonResponse | null>(
     null
@@ -41,7 +39,7 @@ export default function Main() {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    localStorage.setItem(LocalStorageKey.KEY, search || '');
+    setSearch(search || '');
     searchData();
     setPage(1);
   };
