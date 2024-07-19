@@ -1,71 +1,35 @@
 import { PaginationProps } from '../../types/types';
 import styles from './Pagination.module.css';
 
-const Pagination = ({ setCurrentPage, currentPage }: PaginationProps) => {
-  const pages = [];
-  const count = 82;
+const Pagination = ({
+  setCurrentPage,
+  currentPage,
+  count,
+}: PaginationProps) => {
   const limit = 10;
-
-  for (let i = 1; i <= Math.ceil(count / limit); i += 1) {
-    pages.push(i);
-  }
+  const totalPages = Math.ceil(count / limit);
 
   return (
     <div className={styles.pagination}>
-      {pages.map((page) => {
-        console.log();
-        return (
-          <button
-            className={
-              page.toString() == currentPage
-                ? `${styles.button} ${styles.active} `
-                : styles.button
-            }
-            onClick={() => setCurrentPage(page.toString())}
-            key={page}
-            data-testid={page}
-          >
-            {page}
-          </button>
-        );
-      })}
+      <button
+        type="button"
+        disabled={currentPage <= 1}
+        className={styles.button}
+        onClick={() => setCurrentPage(currentPage - 1)}
+      >
+        &larr;
+      </button>
+      <span className={styles.page}>{currentPage}</span>
+      <button
+        type="button"
+        disabled={currentPage >= totalPages}
+        className={styles.button}
+        onClick={() => setCurrentPage(currentPage + 1)}
+      >
+        &rarr;
+      </button>
     </div>
   );
 };
 
 export default Pagination;
-
-// return (
-//   <div className={styles.pagination}>
-//     {data.length === limit || data.length < limit
-//       ? pages.map((page) => {
-//           return (
-//             <button
-//               className={
-//                 page.toString() == currentPage
-//                   ? `${styles.button} ${styles.active} `
-//                   : styles.button
-//               }
-//               onClick={() => setCurrentPage(page.toString())}
-//               key={page}
-//             >
-//               {page}
-//             </button>
-//           );
-//         })
-//       : pages
-//           .filter((page) => page !== 1)
-//           .map((page) => {
-//             return (
-//               <button
-//                 className={styles.button}
-//                 onClick={() => setCurrentPage(page.toString())}
-//                 key={page}
-//                 disabled
-//               >
-//                 {page}
-//               </button>
-//             );
-//           })}
-//   </div>
-// );

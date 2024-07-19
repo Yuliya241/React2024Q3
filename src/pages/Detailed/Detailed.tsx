@@ -53,7 +53,7 @@ export default function Detailed() {
       {isLoading && !isOpen ? (
         <Spinner />
       ) : (
-        <div className={styles.wrapper}>
+        <div className={styles.wrapper} onClick={closeDetailed}>
           <div
             className={
               isOpen
@@ -66,7 +66,7 @@ export default function Detailed() {
               type="button"
               onClick={closeDetailed}
             >
-              Close
+              X
             </button>
             <p className={styles.item__name}>{person?.name}</p>
             <p className={styles.item__property}>

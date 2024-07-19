@@ -1,14 +1,13 @@
 import { Person } from '../../interfaces/interfaces';
-import { SearchResultsProps } from '../../types/types';
 import ResultsItem from '../Results-item/Results-item';
 import styles from './Results-list.module.css';
 
-export default function ResultsList({ data }: SearchResultsProps) {
+export default function ResultsList({ results }: { results: Person[] }) {
   return (
     <>
-      {data.length ? (
+      {results.length ? (
         <div className={styles.wrapper}>
-          {data.map((person: Person) => (
+          {results.map((person: Person) => (
             <ResultsItem key={person.name} {...person} />
           ))}
         </div>

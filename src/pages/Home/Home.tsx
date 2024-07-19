@@ -7,26 +7,31 @@ import { Api, LocalStorageKey } from '../../enums/enums';
 import Spinner from '../../components/Spinner/Spinner';
 import ErrorBoundaryButton from '../../components/ErrorBoundaryButton/ErrorBoundaryButton';
 import styles from './Home.module.css';
-import { Person } from '../../interfaces/interfaces';
 import Pagination from '../../components/Pagination/Pagination';
 import { Outlet, useSearchParams } from 'react-router-dom';
+import { PersonResponse } from '../../interfaces/interfaces';
 
 const localStorageKey = localStorage.getItem(LocalStorageKey.KEY);
-const initialPage = '1';
+const initialPage = 1;
 
 export default function Main() {
   const [isOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [search, setSearch] = useState<string>(
-    searchParams.get('search') || localStorageKey || ''
+    localStorageKey ? localStorageKey : ''
   );
   const [, setError] = useState<unknown>();
-  const [searchResults, setsearchResults] = useState<Person[]>([]);
+  const [searchResults, setsearchResults] = useState<PersonResponse | null>(
+    null
+  );
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [page, setPage] = useState(searchParams.get('page') || initialPage);
+  const [page, setPage] = useState(
+    Number(searchParams.get('page')) || initialPage
+  );
 
   useEffect(() => {
-    setSearchParams({ search, page });
+    searchParams.set('page', page.toString());
+    setSearchParams(searchParams);
     getAllResults();
   }, [page]);
 
@@ -37,8 +42,8 @@ export default function Main() {
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     localStorage.setItem(LocalStorageKey.KEY, search || '');
-    setSearchParams({ search });
     searchData();
+    setPage(1);
   };
 
   const searchData = async () => {
@@ -54,9 +59,9 @@ export default function Main() {
           },
         }
       );
-      const data = await results.json();
+      const data: PersonResponse = await results.json();
       setIsLoading(false);
-      setsearchResults(data.results);
+      setsearchResults(data);
     } catch (error) {
       setError(error);
     }
@@ -65,7 +70,7 @@ export default function Main() {
   const getAllResults = async () => {
     try {
       setIsLoading(true);
-      const results = await fetch(
+      const response = await fetch(
         `${Api.url}?search=${search}&page=${page}
         `,
         {
@@ -75,9 +80,9 @@ export default function Main() {
           },
         }
       );
-      const data = await results.json();
+      const results: PersonResponse = await response.json();
       setIsLoading(false);
-      setsearchResults(data.results);
+      setsearchResults(results);
     } catch (error) {
       console.log(error);
     }
@@ -100,8 +105,12 @@ export default function Main() {
               isOpen ? `${styles.left}` : `${styles.left} ${styles.active}`
             }
           >
-            <ResultsList data={searchResults} />
-            <Pagination setCurrentPage={setPage} currentPage={page} />
+            <ResultsList results={searchResults.results} />
+            <Pagination
+              setCurrentPage={setPage}
+              currentPage={page}
+              count={searchResults.count}
+            />
           </div>
           <Outlet />
         </div>
