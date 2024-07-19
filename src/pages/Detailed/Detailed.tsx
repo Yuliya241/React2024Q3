@@ -53,7 +53,7 @@ export default function Detailed() {
       {isLoading && !isOpen ? (
         <Spinner />
       ) : (
-        <div className={styles.wrapper} onClick={closeDetailed}>
+        <div className={styles.wrapper}>
           <div
             className={
               isOpen
