@@ -1,15 +1,14 @@
-import { useState } from 'react';
-import { LocalStorageKey } from '../enums/enums';
+import { useEffect, useState } from 'react';
 
-export function useLocalStorage(): [string, (searchValue: string) => void] {
-  const [value, setValue] = useState(
-    localStorage.getItem(LocalStorageKey.KEY) || ''
+export const useLocalStorage = (key: string) => {
+  const [value, setValue] = useState(() =>
+    localStorage.getItem(key) ? localStorage.getItem(key) : ''
   );
 
-  const setSearchValue = (searchValue: string) => {
-    localStorage.setItem(LocalStorageKey.KEY, searchValue);
-    setValue(searchValue);
-  };
+  useEffect(() => {
+    localStorage.setItem(key, value || '');
+    return () => localStorage.setItem(key, value || '');
+  }, [key, value]);
 
-  return [value, setSearchValue];
-}
+  return [value, setValue] as const;
+};

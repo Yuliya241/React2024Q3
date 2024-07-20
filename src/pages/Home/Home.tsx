@@ -3,7 +3,7 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import SearchBar from '../../components/Search-bar/Search-bar';
 import ResultsList from '../../components/Results-list/Results-list';
-import { Api } from '../../enums/enums';
+import { Api, LocalStorageKeys, LocalStorageValues } from '../../enums/enums';
 import Spinner from '../../components/Spinner/Spinner';
 import ErrorBoundaryButton from '../../components/ErrorBoundaryButton/ErrorBoundaryButton';
 import styles from './Home.module.css';
@@ -11,13 +11,13 @@ import Pagination from '../../components/Pagination/Pagination';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import { PersonResponse } from '../../interfaces/interfaces';
 import { useLocalStorage } from '../../hooks/UseLocalStorage';
-
-const initialPage = 1;
+import ThemeButton from '../../components/ThemeSwitcher/ThemeButton';
+import { initialPage, useThemeContext } from '../../utils/constants';
 
 export default function Main() {
   const [isOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [search, setSearch] = useLocalStorage();
+  const [search, setSearch] = useLocalStorage(LocalStorageKeys.SEARCH);
   const [, setError] = useState<unknown>();
   const [searchResults, setsearchResults] = useState<PersonResponse | null>(
     null
@@ -86,35 +86,44 @@ export default function Main() {
     }
   };
 
+  const { isDark, toggleTheme } = useThemeContext();
+
   return (
-    <main className={styles.main}>
-      <ErrorBoundaryButton />
-      <SearchBar
-        handleChange={handleChange}
-        searchTerm={search}
-        handleSubmit={handleSubmit}
-      />
-      {isLoading ? (
-        <Spinner />
-      ) : searchResults ? (
-        <div className={styles.wrapper}>
-          <div
-            className={
-              isOpen ? `${styles.left}` : `${styles.left} ${styles.active}`
-            }
-          >
-            <ResultsList results={searchResults.results} />
-            <Pagination
-              setCurrentPage={setPage}
-              currentPage={page}
-              count={searchResults.count}
-            />
-          </div>
-          <Outlet />
+    <main
+      className={`${isDark === LocalStorageValues.DARK ? `${styles.main} ${styles.dark}` : `${styles.main}`}`}
+    >
+      <div className={styles.main__wrapper}>
+        <div className={styles.button__container}>
+          <ThemeButton handleClick={toggleTheme} />
+          <ErrorBoundaryButton />
         </div>
-      ) : (
-        <p className={styles.empty}>Nothing Found...</p>
-      )}
+        <SearchBar
+          handleChange={handleChange}
+          searchTerm={search || ''}
+          handleSubmit={handleSubmit}
+        />
+        {isLoading ? (
+          <Spinner />
+        ) : searchResults ? (
+          <div className={styles.wrapper}>
+            <div
+              className={
+                isOpen ? `${styles.left}` : `${styles.left} ${styles.active}`
+              }
+            >
+              <ResultsList results={searchResults.results} />
+              <Pagination
+                setCurrentPage={setPage}
+                currentPage={page}
+                count={searchResults.count}
+              />
+            </div>
+            <Outlet />
+          </div>
+        ) : (
+          <p className={styles.empty}>Nothing Found...</p>
+        )}
+      </div>
     </main>
   );
 }

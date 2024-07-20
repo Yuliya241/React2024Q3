@@ -24,3 +24,11 @@ export type PaginationProps = {
   count: number;
   setCurrentPage: (page: number) => void;
 };
+
+export type ThemeProps = {
+  children: ReactNode;
+};
+
+export type ThemeButtonProps = {
+  handleClick: () => void;
+};

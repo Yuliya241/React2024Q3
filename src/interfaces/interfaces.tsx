@@ -23,3 +23,8 @@ export interface PersonResponse {
   previous?: string | null;
   results: Person[];
 }
+
+export interface ContextTheme {
+  isDark: string;
+  toggleTheme: () => void;
+}

@@ -1,11 +1,23 @@
 .main {
+  width: 100%;
+  background-image: url('/src/assets/background.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.main.dark {
+  background-image: url('/src/assets/dark-background.jpg');
+}
+
+.main__wrapper {
+  max-width: 87rem;
   padding: 4rem 2rem;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  max-width: 87rem;
   row-gap: 2rem;
 }
 
@@ -31,4 +43,9 @@
 
 .wrapper {
   display: flex;
+}
+
+.button__container {
+  display: flex;
+  align-self: flex-end;
 }
