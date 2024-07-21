@@ -28,7 +28,3 @@ export type PaginationProps = {
 export type ThemeProps = {
   children: ReactNode;
 };
-
-export type ThemeButtonProps = {
-  handleClick: () => void;
-};

@@ -16,6 +16,7 @@ export const ThemeProvider = ({ children }: ThemeProps) => {
           ? LocalStorageValues.DARK
           : LocalStorageValues.LIGHT;
       localStorage.setItem(LocalStorageKeys.THEME, newTheme);
+      document.body.classList.toggle(LocalStorageValues.DARK);
       return newTheme;
     });
   };
