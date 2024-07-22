@@ -10,7 +10,8 @@ export default function ResultsItem(props: Person) {
   return (
     <Link to={`details/${id}${location.search}`} className={styles.link}>
       <div className={styles.item}>
-        {name}
+        <input className={styles.item__input} type="checkbox" />
+        <p className={styles.item__name}>{name}</p>
         <p className={styles.item__property}>Birth year: {birth_year}</p>
         <p className={styles.item__property}>Height: {height}</p>
         <p className={styles.item__property}>Mass: {mass}</p>
