@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ThemeContext } from '../context/ThemeContext';
+import { ThemeContext } from './ThemeContext';
 import { LocalStorageKeys, LocalStorageValues } from '../enums/enums';
 import { ThemeProps } from '../types/types';
 
@@ -16,7 +16,6 @@ export const ThemeProvider = ({ children }: ThemeProps) => {
           ? LocalStorageValues.DARK
           : LocalStorageValues.LIGHT;
       localStorage.setItem(LocalStorageKeys.THEME, newTheme);
-      document.body.classList.toggle(LocalStorageValues.DARK);
       return newTheme;
     });
   };

@@ -28,3 +28,11 @@ export interface ContextTheme {
   isDark: string;
   toggleTheme: () => void;
 }
+
+export interface PersonState {
+  people: Person[];
+  search: string | null;
+  page: number;
+  limit: number;
+  total: number;
+}

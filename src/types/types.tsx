@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { PersonResponse } from '../interfaces/interfaces';
 
 export type SearchResultsProps = {
@@ -6,9 +6,7 @@ export type SearchResultsProps = {
 };
 
 export type SearchProps = {
-  searchTerm: string;
-  handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  onSearch: (value: string) => void;
 };
 
 export type Props = {
@@ -17,12 +15,6 @@ export type Props = {
 
 export type State = {
   hasError: boolean;
-};
-
-export type PaginationProps = {
-  currentPage: number;
-  count: number;
-  setCurrentPage: (page: number) => void;
 };
 
 export type ThemeProps = {
