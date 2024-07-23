@@ -10,7 +10,12 @@ import { Outlet, useSearchParams } from 'react-router-dom';
 import ThemeButton from '../../components/ThemeSwitcher/ThemeButton';
 import { initialPage, useThemeContext } from '../../utils/constants';
 import { useGetAllPeopleQuery } from '../../redux/api/StarWarsApi';
-import { setPage, setSearch, setTotal } from '../../redux/slices/mainSlice';
+import {
+  getPeople,
+  setPage,
+  setSearch,
+  setTotal,
+} from '../../redux/slices/mainSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/store/store';
 import { selectPage, selectSearch } from '../../redux/selectors/selectors';
 
@@ -35,6 +40,7 @@ export default function Main() {
       return params;
     });
     if (data) {
+      dispatch(getPeople(data.results));
       dispatch(setTotal(data.count));
     }
   }, [page, setSearchParams, data, dispatch]);

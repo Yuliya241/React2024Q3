@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { PersonState } from '../../interfaces/interfaces';
+import { Person, PersonState } from '../../interfaces/interfaces';
 import { LocalStorageKeys } from '../../enums/enums';
 
 const initialState: PersonState = {
   people: [],
+  selectedPeople: [],
   search: localStorage.getItem(LocalStorageKeys.SEARCH)
     ? localStorage.getItem(LocalStorageKeys.SEARCH)
     : '',
@@ -17,6 +18,28 @@ export const mainSlice = createSlice({
   name: 'main',
   initialState,
   reducers: {
+    getPeople: (state, action: PayloadAction<Person[]>) => {
+      state.people = action.payload;
+    },
+    addSelectedPerson: (state, action: PayloadAction<Person>) => {
+      const person = action.payload;
+      state.selectedPeople.push(person);
+    },
+    removeSelectedPerson: (state, action: PayloadAction<Person>) => {
+      const person = action.payload;
+      state.selectedPeople = state.selectedPeople.filter((item) => {
+        const itemId = item.url.split('/').filter(Boolean).slice(-1).join('');
+        const personId = person.url
+          .split('/')
+          .filter(Boolean)
+          .slice(-1)
+          .join('');
+        return itemId !== personId;
+      });
+    },
+    clearAllSelectedPeople: (state) => {
+      state.selectedPeople = [];
+    },
     setSearch: (state, action: PayloadAction<string>) => {
       localStorage.setItem(LocalStorageKeys.SEARCH, action.payload);
       state.search = action.payload;
@@ -40,6 +63,10 @@ export const mainSlice = createSlice({
 });
 
 export const {
+  getPeople,
+  addSelectedPerson,
+  removeSelectedPerson,
+  clearAllSelectedPeople,
   setSearch,
   setPage,
   setLimit,
