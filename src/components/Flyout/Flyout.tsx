@@ -1,14 +1,19 @@
 import { LocalStorageValues } from '../../enums/enums';
-import { selectSelectedPeopleCount } from '../../redux/selectors/selectors';
+import {
+  selectSelectedPeople,
+  selectSelectedPeopleCount,
+} from '../../redux/selectors/selectors';
 import { clearAllSelectedPeople } from '../../redux/slices/mainSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/store/store';
 import { useThemeContext } from '../../utils/constants';
+import downloadCsvFile from '../../utils/downaldCsvFile';
 import styles from './Flyout.module.css';
 
 export default function Flyout() {
-  const selectedCount = useAppSelector(selectSelectedPeopleCount());
-  const dispatch = useAppDispatch();
   const { isDark } = useThemeContext();
+  const selectedCount = useAppSelector(selectSelectedPeopleCount());
+  const selectedPeople = useAppSelector(selectSelectedPeople());
+  const dispatch = useAppDispatch();
 
   const clearAll = () => dispatch(clearAllSelectedPeople());
 
@@ -26,7 +31,13 @@ export default function Flyout() {
         <button className={styles.button} onClick={clearAll}>
           Unselect all
         </button>
-        <button className={styles.button}>Download</button>
+        <a
+          className={styles.button}
+          href={downloadCsvFile(selectedPeople)}
+          download={`${selectedCount}_people.csv`}
+        >
+          Download
+        </a>
       </div>
     </div>
   );
