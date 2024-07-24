@@ -9,11 +9,11 @@ import { store } from './redux/store/store';
 export default function App() {
   return (
     <ErrorBoundary>
-      <Provider store={store}>
-        <ThemeProvider>
+      <ThemeProvider>
+        <Provider store={store}>
           <RouterProvider router={router}></RouterProvider>
-        </ThemeProvider>
-      </Provider>
+        </Provider>
+      </ThemeProvider>
     </ErrorBoundary>
   );
 }

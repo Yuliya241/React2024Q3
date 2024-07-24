@@ -18,6 +18,7 @@ import {
 } from '../../redux/slices/mainSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/store/store';
 import { selectPage, selectSearch } from '../../redux/selectors/selectors';
+import Flyout from '../../components/Flyout/Flyout';
 
 export default function Main() {
   const [isOpen] = useState(false);
@@ -78,6 +79,7 @@ export default function Main() {
           <p className={styles.empty}>Nothing Found...</p>
         )}
       </div>
+      <Flyout />
     </main>
   );
 }
