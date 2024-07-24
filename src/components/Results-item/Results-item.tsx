@@ -17,11 +17,9 @@ export default function ResultsItem(props: Person) {
   const isSelected = useAppSelector(selectSelectedPerson(id));
 
   const handleCheckboxChange = (person: Person) => {
-    if (!isSelected) {
-      dispatch(addSelectedPerson(person));
-    } else {
-      dispatch(removeSelectedPerson(person));
-    }
+    return !isSelected
+      ? dispatch(addSelectedPerson(person))
+      : dispatch(removeSelectedPerson(person));
   };
 
   return (

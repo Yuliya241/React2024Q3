@@ -18,6 +18,7 @@ export default function Pagination() {
         disabled={page <= 1}
         className={styles.button}
         onClick={clickPrevPage}
+        data-testid="prevPage"
       >
         &larr;
       </button>
@@ -29,6 +30,7 @@ export default function Pagination() {
         disabled={page >= total}
         className={styles.button}
         onClick={clickNextPage}
+        data-testid="nextPage"
       >
         &rarr;
       </button>
