@@ -24,7 +24,7 @@ export default function ResultsItem(props: Person) {
 
   return (
     <Link to={`details/${id}${location.search}`} className={styles.link}>
-      <div className={styles.item}>
+      <div className={styles.item} data-testid="person-card">
         <input
           className={styles.item__input}
           type="checkbox"

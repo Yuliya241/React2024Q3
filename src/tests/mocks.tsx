@@ -1,0 +1,18 @@
+export const data = {
+  birth_year: '82BBY',
+  created: '2014-12-20T15:59:03.958000Z',
+  edited: '2014-12-20T21:17:50.451000Z',
+  eye_color: 'blue',
+  films: ['https://swapi.dev/api/films/5/'],
+  gender: 'male',
+  hair_color: 'brown',
+  height: '183',
+  homeworld: 'https://swapi.dev/api/planets/1/',
+  mass: 'unknown',
+  name: 'Cliegg Lars',
+  skin_color: 'fair',
+  species: [],
+  starships: [],
+  url: 'https://swapi.dev/api/people/62/',
+  vehicles: [],
+};
