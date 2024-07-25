@@ -22,6 +22,14 @@ describe('testing Results-item component', () => {
     );
 
     expect(screen.getByText(data.name)).toBeInTheDocument();
+    expect(screen.getByText(`Height: ${data.height}`)).toBeInTheDocument();
+    expect(
+      screen.getByText(`Birth year: ${data.birth_year}`)
+    ).toBeInTheDocument();
+    expect(screen.getByText(`Mass: ${data.mass}`)).toBeInTheDocument();
+    expect(
+      screen.getByText(`Hair color: ${data.hair_color}`)
+    ).toBeInTheDocument();
   });
 
   test('clicking on a card opens a detailed card component', async () => {
