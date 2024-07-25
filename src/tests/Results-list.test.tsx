@@ -7,7 +7,7 @@ import ResultsList from '../components/Results-list/Results-list';
 import { searchResults } from './mocks';
 
 describe('tests for the ResultsList component', (): void => {
-  test('Check that an appropriate message is displayed if no cards are present', async () => {
+  test('check that an appropriate message is displayed if no cards are present', async () => {
     render(
       <Provider store={store}>
         <MemoryRouter>
@@ -26,7 +26,7 @@ describe('tests for the ResultsList component', (): void => {
         </MemoryRouter>
       </Provider>
     );
-    const characterList = screen.getAllByTestId('person-card');
-    expect(characterList).toHaveLength(searchResults.results.length);
+    const peopleList = screen.getAllByTestId('person-card');
+    expect(peopleList).toHaveLength(searchResults.results.length);
   });
 });

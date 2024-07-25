@@ -11,7 +11,7 @@ import { data } from './mocks';
 const fetchMock = createFetchMock(vi);
 fetchMock.enableMocks();
 
-describe('testing Results-item component', () => {
+describe('tests for the Results-item component', () => {
   test('the card component renders the relevant card data;', () => {
     render(
       <Provider store={store}>
@@ -48,7 +48,7 @@ describe('testing Results-item component', () => {
     expect(link).toBeInTheDocument();
   });
 
-  test('Clicking on a card should triggers an additional API call to fetch detailed information', async () => {
+  test('clicking on a card should triggers an additional API call to fetch detailed information', async () => {
     fetchMock.mockResponse(JSON.stringify(data));
     render(
       <Provider store={store}>
@@ -58,8 +58,8 @@ describe('testing Results-item component', () => {
       </Provider>
     );
     expect(fetchMock).toHaveBeenCalledTimes(0);
-    const products = await screen.findAllByTestId('person-card');
-    const product = products[0];
-    expect(product).toBeInTheDocument();
+    const people = await screen.findAllByTestId('person-card');
+    const person = people[0];
+    expect(person).toBeInTheDocument();
   });
 });
