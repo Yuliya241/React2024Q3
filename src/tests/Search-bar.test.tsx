@@ -18,7 +18,7 @@ describe('tests for the Search-bar component', () => {
   });
 
   test('check the component retrieves the value from the local storage upon mounting.', async () => {
-    const mockSearch = localStorage.getItem(LocalStorageKeys.SEARCH);
+    const mockSearch = localStorage.getItem(LocalStorageKeys.SEARCH) || '';
     render(<App />);
 
     const input = screen.getByPlaceholderText<HTMLInputElement>('Search...');
