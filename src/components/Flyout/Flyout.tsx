@@ -6,7 +6,7 @@ import {
 import { clearAllSelectedPeople } from '../../redux/slices/mainSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/store/store';
 import { useThemeContext } from '../../utils/constants';
-import downloadCsvFile from '../../utils/downaldCsvFile';
+import downloadCsvFile from '../../utils/downloadCsvFile';
 import styles from './Flyout.module.css';
 
 export default function Flyout() {
