@@ -3,7 +3,7 @@ import {
   selectSelectedPeople,
   selectSelectedPeopleCount,
 } from '../../redux/selectors/selectors';
-import { clearAllSelectedPeople } from '../../redux/slices/mainSlice';
+import { clearAllSelectedPeople } from '../../redux/slices/selectedSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/store/store';
 import { useThemeContext } from '../../utils/constants';
 import downloadCsvFile from '../../utils/downloadCsvFile';

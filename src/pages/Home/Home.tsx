@@ -15,7 +15,7 @@ import {
   setPage,
   setSearch,
   setTotal,
-} from '../../redux/slices/mainSlice';
+} from '../../redux/slices/searchSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/store/store';
 import { selectPage, selectSearch } from '../../redux/selectors/selectors';
 import Flyout from '../../components/Flyout/Flyout';

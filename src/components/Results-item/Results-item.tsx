@@ -6,7 +6,7 @@ import { selectSelectedPerson } from '../../redux/selectors/selectors';
 import {
   addSelectedPerson,
   removeSelectedPerson,
-} from '../../redux/slices/mainSlice';
+} from '../../redux/slices/selectedSlice';
 
 export default function ResultsItem(props: Person) {
   const { name, birth_year, height, mass, hair_color, url } = props;

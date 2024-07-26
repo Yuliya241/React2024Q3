@@ -1,20 +1,20 @@
 import { Person } from '../../interfaces/interfaces';
 import { RootState } from '../store/store';
 
-export const selectSearch = () => (state: RootState) => state.main.search;
+export const selectSearch = () => (state: RootState) => state.search.search;
 
-export const selectPage = () => (state: RootState) => state.main.page;
+export const selectPage = () => (state: RootState) => state.search.page;
 
-export const selectTotal = () => (state: RootState) => state.main.total;
+export const selectTotal = () => (state: RootState) => state.search.total;
 
 export const selectSelectedPeople = () => (state: RootState) =>
-  state.main.selectedPeople;
+  state.selected.selectedPeople;
 
 export const selectSelectedPeopleCount = () => (state: RootState) =>
-  state.main.selectedPeople.length;
+  state.selected.selectedPeople.length;
 
 export const selectSelectedPerson = (id: string) => (state: RootState) =>
-  state.main.selectedPeople.some((item: Person) => {
+  state.selected.selectedPeople.some((item: Person) => {
     const itemId = item.url.split('/').filter(Boolean).slice(-1).join('');
     return itemId === id;
   });

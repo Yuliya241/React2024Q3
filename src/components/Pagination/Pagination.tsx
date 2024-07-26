@@ -1,7 +1,10 @@
 import { useAppDispatch, useAppSelector } from '../../redux/store/store';
 import styles from './Pagination.module.css';
-import { onClickNextPage, onClickPrevPage } from '../../redux/slices/mainSlice';
 import { selectTotal, selectPage } from '../../redux/selectors/selectors';
+import {
+  onClickPrevPage,
+  onClickNextPage,
+} from '../../redux/slices/searchSlice';
 
 export default function Pagination() {
   const dispatch = useAppDispatch();

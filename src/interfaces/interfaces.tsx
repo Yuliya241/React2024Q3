@@ -29,11 +29,14 @@ export interface ContextTheme {
   toggleTheme: () => void;
 }
 
-export interface PersonState {
+export interface SearchState {
   people: Person[];
-  selectedPeople: Person[];
   search: string | null;
   page: number;
   limit: number;
   total: number;
+}
+
+export interface SelectedState {
+  selectedPeople: Person[];
 }
