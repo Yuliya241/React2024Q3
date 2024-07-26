@@ -1,4 +1,15 @@
 .main {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(45deg, #7c8da9, #ae8b9c);
+}
+
+.main.dark {
+  background: radial-gradient(circle, #270b32, #31383c);
+}
+
+.main__wrapper {
+  max-width: 87rem;
   padding: 4rem 2rem;
   margin: 0 auto;
   display: flex;
@@ -31,4 +42,9 @@
 
 .wrapper {
   display: flex;
+}
+
+.button__container {
+  display: flex;
+  align-self: flex-end;
 }

@@ -23,3 +23,20 @@ export interface PersonResponse {
   previous?: string | null;
   results: Person[];
 }
+
+export interface ContextTheme {
+  isDark: string;
+  toggleTheme: () => void;
+}
+
+export interface SearchState {
+  people: Person[];
+  search: string | null;
+  page: number;
+  limit: number;
+  total: number;
+}
+
+export interface SelectedState {
+  selectedPeople: Person[];
+}

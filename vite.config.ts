@@ -8,9 +8,12 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text'],
+      include: ['src'],
+      exclude: ['src/utils'],
     },
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
+    watch: false,
   },
 });

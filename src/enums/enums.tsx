@@ -1,5 +1,11 @@
-export const enum LocalStorageKey {
-  KEY = 'search',
+export const enum LocalStorageKeys {
+  SEARCH = 'search',
+  THEME = 'theme',
+}
+
+export const enum LocalStorageValues {
+  DARK = 'dark',
+  LIGHT = 'light',
 }
 
 export const enum ErrorBoundaryValues {

@@ -1,6 +1,5 @@
 .button__error {
   cursor: pointer;
-  align-self: flex-end;
   background-color: #e6ced6;
   border-radius: 0.5rem;
   border-style: none;

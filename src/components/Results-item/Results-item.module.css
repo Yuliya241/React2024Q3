@@ -15,8 +15,19 @@
   transition: all 0.15s ease-out;
 }
 
+.item__name {
+  text-align: center;
+}
+
+.item__input {
+  margin: 0 0 0 auto;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 0.5rem;
+}
+
 .item:hover {
-  background-color: #c7a2d8db;
+  background-color: #6bf9ecdb;
 }
 
 .item__property {
