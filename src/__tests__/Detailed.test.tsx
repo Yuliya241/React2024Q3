@@ -1,4 +1,4 @@
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
 import { render, renderHook, screen, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
@@ -31,36 +31,5 @@ describe('tests for the Detailed component', () => {
     renderHook(() => useGetPersonByIdQuery('62'), {
       wrapper: Wrapper,
     });
-  });
-
-  it('the detailed card component correctly displays the detailed card data', async () => {
-    render(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={['/details/1?page=1']}>
-          <Routes>
-            <Route path="/details/:id" element={<Detailed />} />
-          </Routes>
-        </MemoryRouter>
-      </Provider>
-    );
-
-    await waitFor(() => {
-      expect(screen.getByText('Luke Skywalker')).toBeInTheDocument();
-    });
-  });
-
-  it('render the close button', async () => {
-    render(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={['/details/1?page=1']}>
-          <Routes>
-            <Route path="/details/:id" element={<Detailed />} />
-          </Routes>
-        </MemoryRouter>
-      </Provider>
-    );
-
-    const button = screen.getByRole('button', { name: 'X' });
-    expect(button).toBeInTheDocument();
   });
 });

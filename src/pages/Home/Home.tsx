@@ -3,7 +3,6 @@ import SearchBar from '../../components/Search-bar/Search-bar';
 import ResultsList from '../../components/Results-list/Results-list';
 import { LocalStorageValues } from '../../enums/enums';
 import Spinner from '../../components/Spinner/Spinner';
-import ErrorBoundaryButton from '../../components/ErrorBoundaryButton/ErrorBoundaryButton';
 import styles from './Home.module.css';
 import Pagination from '../../components/Pagination/Pagination';
 import { Outlet, useSearchParams } from 'react-router-dom';
@@ -19,6 +18,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../../redux/store/store';
 import { selectPage, selectSearch } from '../../redux/selectors/selectors';
 import Flyout from '../../components/Flyout/Flyout';
+import ErrorBoundaryButton from '../../components/ErrorBoundaryButton/ErrorBoundaryButton';
 
 export default function Main() {
   const [isOpen] = useState(false);

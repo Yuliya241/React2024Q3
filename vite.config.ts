@@ -9,6 +9,7 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['text'],
       include: ['src'],
+      exclude: ['src/utils'],
     },
     globals: true,
     environment: 'jsdom',

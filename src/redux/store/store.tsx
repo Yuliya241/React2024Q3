@@ -11,7 +11,10 @@ export const store = configureStore({
     selected: selectedSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(starWarsApi.middleware),
+    getDefaultMiddleware({
+      immutableCheck: { warnAfter: 100 },
+      serializableCheck: { warnAfter: 100 },
+    }).concat(starWarsApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
