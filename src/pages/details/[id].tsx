@@ -2,20 +2,20 @@ import { useParams } from 'react-router';
 import styles from './Detailed.module.css';
 import { useState } from 'react';
 import Spinner from '../../components/Spinner/Spinner';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { useGetPersonByIdQuery } from '../../redux/api/StarWarsApi';
 
 export default function Detailed() {
   const { id } = useParams();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const { data, isFetching } = useGetPersonByIdQuery(id || '');
 
   const closeDetailed = () => {
     setIsOpen(false);
-    navigate(-1);
+    // navigate(-1);
   };
 
   return (

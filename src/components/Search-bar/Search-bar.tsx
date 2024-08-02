@@ -1,31 +1,30 @@
 import { useState, ChangeEvent } from 'react';
-import { useAppSelector } from '../../redux/store/store';
-import { SearchProps } from '../../types/types';
-import styles from './Search-bar.module.css';
-import { useSearchParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../redux/store/store';
 import { selectSearch } from '../../redux/selectors/selectors';
+import { useRouter } from 'next/router';
+import { initialPage } from '../../utils/constants';
+import styles from './Search-bar.module.css';
+import { setSearch } from '../../redux/slices/searchSlice';
 
-export default function SearchBar({ onSearch }: SearchProps) {
-  const [, setSearchParams] = useSearchParams();
+export default function SearchBar() {
   const search = useAppSelector(selectSearch());
+  const dispatch = useAppDispatch();
   const [searchTerm, setSearchTerm] = useState(search);
+  const { push, query } = useRouter();
 
   const onChangeSearchTerm = (e: ChangeEvent<HTMLInputElement>): void => {
     setSearchTerm(e.target.value);
-    setSearchParams((params) => {
-      params.set('search', e.target.value.trim());
-      return params;
-    });
   };
 
   const onSubmit = (): void => {
     setSearchTerm(searchTerm?.trim() || '');
-    onSearch(searchTerm?.trim() || '');
-    if (!searchTerm) {
-      setSearchParams((params) => {
-        params.delete('search');
-        return params;
+    dispatch(setSearch(searchTerm?.trim() || ''));
+    if (searchTerm !== '') {
+      push({
+        query: { ...query, search: searchTerm, page: initialPage },
       });
+    } else {
+      push('/');
     }
   };
 

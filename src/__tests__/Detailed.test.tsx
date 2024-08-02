@@ -2,13 +2,14 @@ import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
 import { render, renderHook, screen, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { store } from '../redux/store/store';
-import Detailed from '../pages/Detailed/Detailed';
+import { wrapper } from '../redux/store/store';
 import { ReactNode } from 'react';
 import { useGetPersonByIdQuery } from '../redux/api/StarWarsApi';
+import Detailed from '../pages/details/[id]';
 
 describe('tests for the Detailed component', () => {
-  it('displays loading indicator while fetching data', async () => {
+  it('displays loading indicator while fetching data', async (...rest) => {
+    const { store } = wrapper.useWrappedStore(rest);
     render(
       <Provider store={store}>
         <MemoryRouter initialEntries={['/details/62']}>
@@ -23,7 +24,8 @@ describe('tests for the Detailed component', () => {
     });
   });
 
-  it('renders hook', () => {
+  it('renders hook', (rest) => {
+    const { store } = wrapper.useWrappedStore(rest);
     function Wrapper(props: { children: ReactNode }) {
       return <Provider store={store}>{props.children}</Provider>;
     }

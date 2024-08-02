@@ -1,4 +1,3 @@
-import { Link, useLocation } from 'react-router-dom';
 import { Person } from '../../interfaces/interfaces';
 import styles from './Results-item.module.css';
 import { useAppDispatch, useAppSelector } from '../../redux/store/store';
@@ -7,11 +6,11 @@ import {
   addSelectedPerson,
   removeSelectedPerson,
 } from '../../redux/slices/selectedSlice';
+import Link from 'next/link';
 
 export default function ResultsItem(props: Person) {
   const { name, birth_year, height, mass, hair_color, url } = props;
   const id = url.split('/').filter(Boolean).slice(-1).join('');
-  const location = useLocation();
 
   const dispatch = useAppDispatch();
   const isSelected = useAppSelector(selectSelectedPerson(id));
@@ -23,7 +22,7 @@ export default function ResultsItem(props: Person) {
   };
 
   return (
-    <Link to={`details/${id}${location.search}`} className={styles.link}>
+    <Link href={`details/${id}`} className={styles.link}>
       <div className={styles.item} data-testid="person-card">
         <input
           className={styles.item__input}
