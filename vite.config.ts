@@ -8,8 +8,8 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text'],
-      include: ['src'],
-      exclude: ['src/utils'],
+      // include: ['src'],
+      exclude: ['src'],
     },
     globals: true,
     environment: 'jsdom',
