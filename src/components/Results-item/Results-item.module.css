@@ -5,13 +5,13 @@
   color: #3e326a;
   min-width: 18rem;
   background-color: white;
-  width: 100%;
   margin-bottom: 1rem;
   border-radius: 0.5rem;
   text-align: center;
   flex-direction: column;
   display: flex;
   row-gap: 0.2rem;
+  cursor: pointer;
   transition: all 0.15s ease-out;
 }
 
@@ -35,8 +35,4 @@
   font-size: 1.2rem;
   color: #555555;
   text-align: start;
-}
-
-.link {
-  text-decoration: none;
 }

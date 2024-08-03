@@ -10,3 +10,7 @@
   color: #84e9e2;
   font-weight: 900;
 }
+
+.detailed {
+  display: flex;
+}

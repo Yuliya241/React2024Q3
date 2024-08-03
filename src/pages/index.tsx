@@ -1,11 +1,9 @@
 /* eslint-disable react-refresh/only-export-components */
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ResultsList from '../components/Results-list/Results-list';
 import SearchBar from '../components/Search-bar/Search-bar';
-import Spinner from '../components/Spinner/Spinner';
-import { LocalStorageValues, RouterEvent } from '../enums/enums';
+import { LocalStorageValues } from '../enums/enums';
 import { initialPage, useThemeContext } from '../utils/constants';
-import { Outlet } from 'react-router-dom';
 import ErrorBoundaryButton from '../components/ErrorBoundaryButton/ErrorBoundaryButton';
 import Flyout from '../components/Flyout/Flyout';
 import Pagination from '../components/Pagination/Pagination';
@@ -14,7 +12,7 @@ import { getRunningQueriesThunk, starWarsApi } from '../redux/api/StarWarsApi';
 import { wrapper } from '../redux/store/store';
 import styles from './styles.module.css';
 import { InferGetServerSidePropsType } from 'next';
-import { useRouter } from 'next/router';
+import Detailed from '../components/Detailed/Detailed';
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
@@ -51,28 +49,40 @@ export default function Main({
   peopleResponse,
   search,
   page,
-  // personResponse,
-  // id,
+  personResponse,
+  id,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const [isOpen] = useState(false);
   const { isDark } = useThemeContext();
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  // const router = useRouter();
+  const [loadingData] = useState(false);
+  const [loadingDetails] = useState(false);
 
-  useEffect(() => {
-    const start = () => setIsLoading(true);
-    const end = () => setIsLoading(false);
+  // const isLoadingDetails = !!id;
 
-    router.events.on(RouterEvent.START, start);
-    router.events.on(RouterEvent.COMPLETE, end);
-    router.events.on(RouterEvent.ERROR, end);
+  // useEffect(() => {
+  //   const start = () => {
+  //     // setLoadingData(true);
+  //     if (isLoadingDetails) {
+  //       setLoadingDetails(true);
+  //     } else {
+  //       setLoadingData(true);
+  //     }
+  //   };
+  //   const end = () => {
+  //     setLoadingDetails(false);
+  //     setLoadingData(false);
+  //   };
 
-    return () => {
-      router.events.off(RouterEvent.START, start);
-      router.events.off(RouterEvent.COMPLETE, end);
-      router.events.off(RouterEvent.ERROR, end);
-    };
-  }, [router]);
+  //   router.events.on(RouterEvent.START, start);
+  //   router.events.on(RouterEvent.COMPLETE, end);
+  //   router.events.on(RouterEvent.ERROR, end);
+
+  //   return () => {
+  //     router.events.off(RouterEvent.START, start);
+  //     router.events.off(RouterEvent.COMPLETE, end);
+  //     router.events.off(RouterEvent.ERROR, end);
+  //   };
+  // }, [router, isLoadingDetails]);
 
   return (
     <main
@@ -84,26 +94,28 @@ export default function Main({
           <ErrorBoundaryButton />
         </div>
         <SearchBar searchValue={search} />
-        {isLoading ? (
-          <Spinner />
-        ) : peopleResponse.data?.results ? (
-          <div className={styles.wrapper}>
-            <div
-              className={
-                isOpen ? `${styles.left}` : `${styles.left} ${styles.active}`
-              }
-            >
-              <ResultsList results={peopleResponse.data?.results} />
-              <Pagination
-                currentPage={page}
-                count={peopleResponse.data.count}
-              />
-            </div>
-            <Outlet />
+        <div className={styles.wrapper}>
+          <div
+            className={
+              !!id ? `${styles.left}` : `${styles.left} ${styles.active}`
+            }
+          >
+            <ResultsList
+              results={peopleResponse.data?.results || []}
+              isLoading={loadingData}
+            />
+            <Pagination
+              currentPage={page}
+              count={peopleResponse?.data?.count || 1}
+            />
           </div>
-        ) : (
-          <p className={styles.empty}>Nothing Found...</p>
-        )}
+          {personResponse.data && (
+            <Detailed
+              personResponse={personResponse.data}
+              isLoading={loadingDetails}
+            />
+          )}
+        </div>
       </div>
       <Flyout />
     </main>
