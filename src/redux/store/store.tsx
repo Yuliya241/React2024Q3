@@ -1,14 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { starWarsApi } from '../api/StarWarsApi';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import { searchSlice } from '../slices/searchSlice';
 import { selectedSlice } from '../slices/selectedSlice';
 import { createWrapper } from 'next-redux-wrapper';
 
 export const store = () =>
   configureStore({
     reducer: {
-      search: searchSlice.reducer,
       selected: selectedSlice.reducer,
       [starWarsApi.reducerPath]: starWarsApi.reducer,
     },

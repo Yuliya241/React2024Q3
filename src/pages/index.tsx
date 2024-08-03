@@ -1,9 +1,9 @@
 /* eslint-disable react-refresh/only-export-components */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ResultsList from '../components/Results-list/Results-list';
 import SearchBar from '../components/Search-bar/Search-bar';
-// import Spinner from '../components/Spinner/Spinner';
-import { LocalStorageValues } from '../enums/enums';
+import Spinner from '../components/Spinner/Spinner';
+import { LocalStorageValues, RouterEvent } from '../enums/enums';
 import { initialPage, useThemeContext } from '../utils/constants';
 import { Outlet } from 'react-router-dom';
 import ErrorBoundaryButton from '../components/ErrorBoundaryButton/ErrorBoundaryButton';
@@ -14,6 +14,7 @@ import { getRunningQueriesThunk, starWarsApi } from '../redux/api/StarWarsApi';
 import { wrapper } from '../redux/store/store';
 import styles from './styles.module.css';
 import { InferGetServerSidePropsType } from 'next';
+import { useRouter } from 'next/router';
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
@@ -48,13 +49,30 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
 export default function Main({
   peopleResponse,
-  // search,
+  search,
   page,
   // personResponse,
   // id,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [isOpen] = useState(false);
   const { isDark } = useThemeContext();
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    const start = () => setIsLoading(true);
+    const end = () => setIsLoading(false);
+
+    router.events.on(RouterEvent.START, start);
+    router.events.on(RouterEvent.COMPLETE, end);
+    router.events.on(RouterEvent.ERROR, end);
+
+    return () => {
+      router.events.off(RouterEvent.START, start);
+      router.events.off(RouterEvent.COMPLETE, end);
+      router.events.off(RouterEvent.ERROR, end);
+    };
+  }, [router]);
 
   return (
     <main
@@ -65,8 +83,10 @@ export default function Main({
           <ThemeButton />
           <ErrorBoundaryButton />
         </div>
-        <SearchBar />
-        {peopleResponse.data?.results ? (
+        <SearchBar searchValue={search} />
+        {isLoading ? (
+          <Spinner />
+        ) : peopleResponse.data?.results ? (
           <div className={styles.wrapper}>
             <div
               className={

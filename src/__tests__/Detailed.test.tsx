@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { wrapper } from '../redux/store/store';
 import { ReactNode } from 'react';
 import { useGetPersonByIdQuery } from '../redux/api/StarWarsApi';
-import Detailed from '../pages/details/[id]';
+import Detailed from '../pages/[details/[id]]';
 
 describe('tests for the Detailed component', () => {
   it('displays loading indicator while fetching data', async (...rest) => {
