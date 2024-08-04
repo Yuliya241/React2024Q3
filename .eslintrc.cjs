@@ -24,5 +24,6 @@ module.exports = {
     'react-compiler/react-compiler': 'error',
     'prettier/prettier': 'error',
     'no-extra-boolean-cast': 'off',
+    'react-refresh/only-export-components': 'off'
   },
 };

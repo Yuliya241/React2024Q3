@@ -1,8 +1,7 @@
-/* eslint-disable react-refresh/only-export-components */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ResultsList from '../components/Results-list/Results-list';
 import SearchBar from '../components/Search-bar/Search-bar';
-import { LocalStorageValues } from '../enums/enums';
+import { LocalStorageValues, RouterEvent } from '../enums/enums';
 import { initialPage, useThemeContext } from '../utils/constants';
 import ErrorBoundaryButton from '../components/ErrorBoundaryButton/ErrorBoundaryButton';
 import Flyout from '../components/Flyout/Flyout';
@@ -13,6 +12,8 @@ import { wrapper } from '../redux/store/store';
 import styles from './styles.module.css';
 import { InferGetServerSidePropsType } from 'next';
 import Detailed from '../components/Detailed/Detailed';
+import { useRouter } from 'next/router';
+import Spinner from '../components/Spinner/Spinner';
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
@@ -53,36 +54,23 @@ export default function Main({
   id,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const { isDark } = useThemeContext();
-  // const router = useRouter();
-  const [loadingData] = useState(false);
-  const [loadingDetails] = useState(false);
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
-  // const isLoadingDetails = !!id;
+  useEffect(() => {
+    const start = () => setLoading(true);
+    const end = () => setLoading(false);
 
-  // useEffect(() => {
-  //   const start = () => {
-  //     // setLoadingData(true);
-  //     if (isLoadingDetails) {
-  //       setLoadingDetails(true);
-  //     } else {
-  //       setLoadingData(true);
-  //     }
-  //   };
-  //   const end = () => {
-  //     setLoadingDetails(false);
-  //     setLoadingData(false);
-  //   };
+    router.events.on(RouterEvent.START, start);
+    router.events.on(RouterEvent.COMPLETE, end);
+    router.events.on(RouterEvent.ERROR, end);
 
-  //   router.events.on(RouterEvent.START, start);
-  //   router.events.on(RouterEvent.COMPLETE, end);
-  //   router.events.on(RouterEvent.ERROR, end);
-
-  //   return () => {
-  //     router.events.off(RouterEvent.START, start);
-  //     router.events.off(RouterEvent.COMPLETE, end);
-  //     router.events.off(RouterEvent.ERROR, end);
-  //   };
-  // }, [router, isLoadingDetails]);
+    return () => {
+      router.events.off(RouterEvent.START, start);
+      router.events.off(RouterEvent.COMPLETE, end);
+      router.events.off(RouterEvent.ERROR, end);
+    };
+  }, [router]);
 
   return (
     <main
@@ -94,28 +82,32 @@ export default function Main({
           <ErrorBoundaryButton />
         </div>
         <SearchBar searchValue={search} />
-        <div className={styles.wrapper}>
-          <div
-            className={
-              !!id ? `${styles.left}` : `${styles.left} ${styles.active}`
-            }
-          >
-            <ResultsList
-              results={peopleResponse.data?.results || []}
-              isLoading={loadingData}
-            />
-            <Pagination
-              currentPage={page}
-              count={peopleResponse?.data?.count || 1}
-            />
+        {loading ? (
+          <Spinner />
+        ) : (
+          <div className={styles.wrapper}>
+            <div
+              className={
+                !!id ? `${styles.left}` : `${styles.left} ${styles.active}`
+              }
+            >
+              <ResultsList
+                results={peopleResponse.data?.results || []}
+                isLoading={loading}
+              />
+              <Pagination
+                currentPage={page}
+                count={peopleResponse?.data?.count || 1}
+              />
+            </div>
+            {personResponse.data && (
+              <Detailed
+                personResponse={personResponse.data}
+                isLoading={loading}
+              />
+            )}
           </div>
-          {personResponse.data && (
-            <Detailed
-              personResponse={personResponse.data}
-              isLoading={loadingDetails}
-            />
-          )}
-        </div>
+        )}
       </div>
       <Flyout />
     </main>
