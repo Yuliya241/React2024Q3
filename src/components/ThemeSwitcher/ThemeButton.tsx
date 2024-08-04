@@ -7,6 +7,7 @@ export default function ThemeButton() {
 
   return (
     <button
+      data-testid="theme-button"
       className={`${isDark === LocalStorageValues.DARK ? `${styles.button} ${styles.dark}` : `${styles.button}`}`}
       onClick={toggleTheme}
     >

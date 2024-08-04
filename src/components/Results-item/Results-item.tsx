@@ -36,6 +36,7 @@ export default function ResultsItem(props: Person) {
         className={styles.item__input}
         type="checkbox"
         name="id"
+        data-testid="select-checkbox"
         checked={isSelected}
         onChange={() => handleCheckboxChange(props)}
         onClick={(e) => e.stopPropagation()}
