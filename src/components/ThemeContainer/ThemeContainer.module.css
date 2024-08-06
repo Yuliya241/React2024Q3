@@ -1,0 +1,9 @@
+.main {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(45deg, #7c8da9, #ae8b9c);
+}
+
+.main.dark {
+  background: radial-gradient(circle, #270b32, #31383c);
+}

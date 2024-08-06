@@ -4,15 +4,13 @@ import Flyout from '../components/Flyout/Flyout';
 import Pagination from '../components/Pagination/Pagination';
 import ResultsList from '../components/Results-list/Results-list';
 import SearchBar from '../components/Search-bar/Search-bar';
-// import Spinner from '../components/Spinner/Spinner';
 import ThemeButton from '../components/ThemeSwitcher/ThemeButton';
 import styles from './styles.module.css';
 import { Person, PersonResponse } from '../interfaces/interfaces';
 import { getPeople } from '../actions/getPeopleAPI';
 import { initialPage } from '../utils/constants';
 import { getPersonByID } from '../actions/getPersonAPI';
-// import { useThemeContext } from '../context/ThemeProvider';
-// import { LocalStorageValues } from '../enums/enums';
+import { ThemeContainer } from '../components/ThemeContainer/ThemeContainer';
 
 export default async function Page({
   searchParams,
@@ -30,15 +28,10 @@ export default async function Page({
   const people: PersonResponse = await getPeople(searchValue, currentPagee);
   const person: Person | undefined = await getPersonByID(id);
 
-  // const { isDark } = useThemeContext();
-
   // const [loading, setLoading] = useState(false);
 
   return (
-    <main className={styles.main}>
-      {/* <main
-       className={`${isDark === LocalStorageValues.DARK ? `${styles.main} ${styles.dark}` : `${styles.main}`}`}
-     > */}
+    <ThemeContainer>
       <div className={styles.main__wrapper}>
         <div className={styles.button__container}>
           <ThemeButton />
@@ -46,12 +39,11 @@ export default async function Page({
         </div>
         <SearchBar searchValue={searchValue} />
         <div className={styles.wrapper}>
-          <div className={styles.left}>
-            {/* <div
+          <div
             className={
               !!id ? `${styles.left}` : `${styles.left} ${styles.active}`
             }
-          > */}
+          >
             <ResultsList
               results={people.results || []}
               // isLoading={loading}
@@ -67,6 +59,6 @@ export default async function Page({
         </div>
       </div>
       <Flyout />
-    </main>
+    </ThemeContainer>
   );
 }
