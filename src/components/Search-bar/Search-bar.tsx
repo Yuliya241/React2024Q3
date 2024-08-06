@@ -1,13 +1,18 @@
+'use client';
+
 import { useState, ChangeEvent } from 'react';
-import { useRouter } from 'next/router';
 import { initialPage } from '../../utils/constants';
 import styles from './Search-bar.module.css';
 import { LocalStorageKeys } from '../../enums/enums';
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 
 export default function SearchBar(props: { searchValue: string }) {
   const { searchValue } = props;
   const [searchTerm, setSearchTerm] = useState(searchValue);
-  const { push, query } = useRouter();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+  const params = new URLSearchParams(searchParams);
 
   const onChangeSearchTerm = (e: ChangeEvent<HTMLInputElement>): void => {
     setSearchTerm(e.target.value);
@@ -19,11 +24,11 @@ export default function SearchBar(props: { searchValue: string }) {
       localStorage.setItem(LocalStorageKeys.SEARCH, searchTerm);
     }
     if (searchTerm !== '') {
-      push({
-        query: { ...query, search: searchTerm, page: initialPage },
-      });
+      params.set('page', initialPage.toString());
+      params.set('search', searchTerm);
+      router.replace(`${pathname}?${params.toString()}`);
     } else {
-      push('/');
+      router.push('/');
     }
   };
 

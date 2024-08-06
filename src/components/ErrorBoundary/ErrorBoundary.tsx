@@ -1,3 +1,5 @@
+'use client';
+
 import { Component } from 'react';
 import { Props, State } from '../../types/types';
 import { ErrorBoundaryValues } from '../../enums/enums';

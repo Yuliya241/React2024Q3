@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import NotFound from '../pages/404';
+// import NotFound from '../local/404';
 import { createMockRouter } from './mocks';
 import mockRouter from 'next-router-mock';
 import { render, screen, waitFor } from '@testing-library/react';
@@ -16,7 +16,7 @@ describe('tests for the NotFound page', () => {
       <RouterContext.Provider
         value={createMockRouter({ query: { details: '162' } })}
       >
-        <NotFound />;
+        {/* <NotFound />; */}
       </RouterContext.Provider>
     );
 

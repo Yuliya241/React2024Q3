@@ -4,7 +4,7 @@ import styles from './Results-list.module.css';
 
 export default function ResultsList(props: {
   results: Person[];
-  isLoading: boolean;
+  // isLoading: boolean;
 }) {
   const { results } = props;
 

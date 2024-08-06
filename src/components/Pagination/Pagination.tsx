@@ -1,25 +1,30 @@
-import { useRouter } from 'next/router';
+'use client';
+
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import styles from './Pagination.module.css';
 
 export default function Pagination(props: {
   count: number;
   currentPage: number;
 }) {
-  const { push, query } = useRouter();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+  const params = new URLSearchParams(searchParams);
   const { count, currentPage } = props;
   const limit = 10;
   const totalPages = Math.ceil(count / limit);
 
   const clickPrevPage = () => {
-    push({
-      query: { ...query, page: currentPage - 1 },
-    });
+    const nextPage = currentPage - 1;
+    params.set('page', nextPage.toString());
+    router.replace(`${pathname}?${params.toString()}`);
   };
 
   const clickNextPage = () => {
-    push({
-      query: { ...query, page: currentPage + 1 },
-    });
+    const nextPage = currentPage + 1;
+    params.set('page', nextPage.toString());
+    router.replace(`${pathname}?${params.toString()}`);
   };
 
   return (

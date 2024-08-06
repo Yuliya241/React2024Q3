@@ -1,7 +1,18 @@
-import { useState, useEffect } from 'react';
+'use client';
+
+import { useState, useEffect, useContext } from 'react';
 import { ThemeContext } from './ThemeContext';
 import { LocalStorageKeys, LocalStorageValues } from '../enums/enums';
 import { ThemeProps } from '../types/types';
+
+export const useThemeContext = () => {
+  const context = useContext(ThemeContext);
+
+  if (!context) {
+    throw new Error('error');
+  }
+  return context;
+};
 
 export const ThemeProvider = ({ children }: ThemeProps) => {
   const [isDark, setIsDark] = useState(() => {

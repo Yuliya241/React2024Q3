@@ -1,3 +1,6 @@
+'use client';
+
+import { useThemeContext } from '../../context/ThemeProvider';
 import { LocalStorageValues } from '../../enums/enums';
 import {
   selectSelectedPeople,
@@ -5,7 +8,6 @@ import {
 } from '../../redux/selectors/selectors';
 import { clearAllSelectedPeople } from '../../redux/slices/selectedSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/store/store';
-import { useThemeContext } from '../../utils/constants';
 import downloadCsvFile from '../../utils/downloadCsvFile';
 import styles from './Flyout.module.css';
 

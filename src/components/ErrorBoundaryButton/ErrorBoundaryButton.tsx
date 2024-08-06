@@ -1,3 +1,5 @@
+'use client';
+
 import { Component } from 'react';
 import { ErrorBoundaryValues } from '../../enums/enums';
 import styles from './ErrorBoundaryButton.module.css';
