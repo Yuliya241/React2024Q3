@@ -18,13 +18,13 @@ export default function Pagination(props: {
   const clickPrevPage = () => {
     const nextPage = currentPage - 1;
     params.set('page', nextPage.toString());
-    router.replace(`${pathname}?${params.toString()}`);
+    router.push(`${pathname}?${params.toString()}`);
   };
 
   const clickNextPage = () => {
     const nextPage = currentPage + 1;
     params.set('page', nextPage.toString());
-    router.replace(`${pathname}?${params.toString()}`);
+    router.push(`${pathname}?${params.toString()}`);
   };
 
   return (

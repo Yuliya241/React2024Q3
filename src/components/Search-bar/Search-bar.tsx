@@ -26,7 +26,7 @@ export default function SearchBar(props: { searchValue: string }) {
     if (searchTerm !== '') {
       params.set('page', initialPage.toString());
       params.set('search', searchTerm);
-      router.replace(`${pathname}?${params.toString()}`);
+      router.push(`${pathname}?${params.toString()}`);
     } else {
       router.push('/');
     }

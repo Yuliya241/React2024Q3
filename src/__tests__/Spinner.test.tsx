@@ -1,24 +1,33 @@
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
-import mockRouter from 'next-router-mock';
 import { createMockRouter, data } from './mocks';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import Detailed from '../components/Detailed/Detailed';
 import Spinner from '../components/Spinner/Spinner';
 
-vi.mock('next/router', async () => await vi.importActual('next-router-mock'));
+const { useRouter } = vi.hoisted(() => {
+  const mockedRouterPush = vi.fn();
+  return {
+    useRouter: () => ({ push: mockedRouterPush }),
+    mockedRouterPush,
+  };
+});
 
-afterEach(() => {
-  mockRouter.push('/details=62');
+vi.mock('next/navigation', async () => {
+  const actual = await vi.importActual('next/navigation');
+  return {
+    ...actual,
+    useRouter,
+  };
 });
 
 describe('tests for the Spinner component', () => {
-  it('displays loading indicator while fetching data', async () => {
+  it('displays loading indicator while fetching data in Detailed component', async () => {
     render(
       <RouterContext.Provider
         value={createMockRouter({ query: { details: '62' } })}
       >
-        <Detailed personResponse={data} isLoading={false} />;
+        <Detailed personResponse={data} />;
       </RouterContext.Provider>
     );
 

@@ -1,6 +1,5 @@
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
-import mockRouter from 'next-router-mock';
 import { createMockRouter } from './mocks';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import { store } from '../redux/store/store';
@@ -9,10 +8,20 @@ import ThemeButton from '../components/ThemeSwitcher/ThemeButton';
 import { ThemeProvider } from '../context/ThemeProvider';
 import userEvent from '@testing-library/user-event';
 
-vi.mock('next/router', async () => await vi.importActual('next-router-mock'));
+const { useRouter } = vi.hoisted(() => {
+  const mockedRouterPush = vi.fn();
+  return {
+    useRouter: () => ({ push: mockedRouterPush }),
+    mockedRouterPush,
+  };
+});
 
-afterEach(() => {
-  mockRouter.push('/');
+vi.mock('next/navigation', async () => {
+  const actual = await vi.importActual('next/navigation');
+  return {
+    ...actual,
+    useRouter,
+  };
 });
 
 describe('tests for the ThemeButton component', () => {

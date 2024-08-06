@@ -16,7 +16,7 @@ export default function Detailed(props: {
 
   const closeDetailed = () => {
     params.delete('details');
-    router.replace(`${pathname}?${params.toString()}`);
+    router.push(`${pathname}?${params.toString()}`);
   };
 
   return (

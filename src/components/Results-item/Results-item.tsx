@@ -29,7 +29,7 @@ export default function ResultsItem(props: Person) {
 
   const openDetailed = () => {
     params.set('details', id);
-    router.replace(`${pathname}?${params.toString()}`);
+    router.push(`${pathname}?${params.toString()}`);
   };
 
   return (

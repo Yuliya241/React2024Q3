@@ -1,16 +1,26 @@
-import { afterEach, describe, expect, test, vi } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { LocalStorageKeys } from '../enums/enums';
-import mockRouter from 'next-router-mock';
 import SearchBar from '../components/Search-bar/Search-bar';
 import { createMockRouter } from './mocks';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 
-afterEach(() => {
-  mockRouter.push('/');
+const { useRouter } = vi.hoisted(() => {
+  const mockedRouterPush = vi.fn();
+  return {
+    useRouter: () => ({ push: mockedRouterPush }),
+    mockedRouterPush,
+  };
 });
-vi.mock('next/router', async () => await vi.importActual('next-router-mock'));
+
+vi.mock('next/navigation', async () => {
+  const actual = await vi.importActual('next/navigation');
+  return {
+    ...actual,
+    useRouter,
+  };
+});
 
 describe('tests for the Search-bar component', () => {
   const mockSearch = 'Lyke';
