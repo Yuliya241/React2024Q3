@@ -21,3 +21,7 @@ export type PaginationProps = {
   currentPage: number;
   count: number;
 };
+
+export type DetailsProps = {
+  id: string;
+};

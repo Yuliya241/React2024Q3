@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
-import { createMockRouter, data } from './mocks';
+import { createMockRouter } from './mocks';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import Detailed from '../components/Detailed/Detailed';
 import Spinner from '../components/Spinner/Spinner';
@@ -23,11 +23,13 @@ vi.mock('next/navigation', async () => {
 
 describe('tests for the Spinner component', () => {
   it('displays loading indicator while fetching data in Detailed component', async () => {
+    const detailed = await (async () => Detailed({ id: '62' }))();
+
     render(
       <RouterContext.Provider
         value={createMockRouter({ query: { details: '62' } })}
       >
-        <Detailed personResponse={data} />;
+        {detailed};
       </RouterContext.Provider>
     );
 

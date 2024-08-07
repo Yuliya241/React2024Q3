@@ -24,11 +24,13 @@ vi.mock('next/navigation', async () => {
 
 describe('tests for the Detailed component', () => {
   it('displays loading indicator while fetching data', async () => {
+    const detailed = await (async () => Detailed({ id: '62' }))();
+
     render(
       <RouterContext.Provider
         value={createMockRouter({ query: { details: '62' } })}
       >
-        <Detailed personResponse={data} />;
+        {detailed};
       </RouterContext.Provider>
     );
 
@@ -39,11 +41,13 @@ describe('tests for the Detailed component', () => {
   });
 
   test('Make sure the detailed card component correctly displays the detailed card data', async () => {
+    const detailed = await (async () => Detailed({ id: '62' }))();
+
     render(
       <RouterContext.Provider
         value={createMockRouter({ query: { details: '62' } })}
       >
-        <Detailed personResponse={data} />;
+        {detailed};
       </RouterContext.Provider>
     );
 
@@ -63,12 +67,13 @@ describe('tests for the Detailed component', () => {
   test('Ensure that clicking the close button hides the component', async () => {
     mockRouter.push = vi.fn();
     const user = userEvent.setup();
+    const detailed = await (async () => Detailed({ id: '62' }))();
 
     render(
       <RouterContext.Provider
         value={createMockRouter({ query: { details: '62' } })}
       >
-        <Detailed personResponse={data} />;
+        {detailed};
       </RouterContext.Provider>
     );
 

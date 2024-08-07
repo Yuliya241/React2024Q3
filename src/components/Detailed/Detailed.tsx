@@ -1,44 +1,44 @@
-'use client';
-
 import styles from './Detailed.module.css';
 import { Person } from '../../interfaces/interfaces';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import ButtonClose from '../ButtonClose/ButtonClose';
+import { DetailsProps } from '../../types/types';
+import { Api } from '../../enums/enums';
 
-export default function Detailed(props: {
-  personResponse: Person | undefined;
-  // isLoading: boolean;
-}) {
-  const { personResponse } = props;
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const pathname = usePathname();
-  const params = new URLSearchParams(searchParams);
+export const getPersonByID = async (id: number) => {
+  if (!id) {
+    return;
+  }
 
-  const closeDetailed = () => {
-    params.delete('details');
-    router.push(`${pathname}?${params.toString()}`);
-  };
+  const results = await fetch(
+    `${Api.url}${id}
+      `,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  );
+  const person: Person = await results.json();
+
+  return person;
+};
+
+export default async function Detailed({ id }: DetailsProps) {
+  const person: Person | undefined = await getPersonByID(Number(id));
 
   return (
     <div className={styles.wrapper}>
       <div className={`${styles.item__card} ${styles.active}`}>
-        <button
-          className={styles.item__button}
-          type="button"
-          onClick={closeDetailed}
-        >
-          X
-        </button>
-        <p className={styles.item__name}>{personResponse?.name}</p>
+        <ButtonClose />
+        <p className={styles.item__name}>{person?.name}</p>
         <p className={styles.item__property}>
-          Birth year: {personResponse?.birth_year}
+          Birth year: {person?.birth_year}
         </p>
+        <p className={styles.item__property}>Height: {person?.height}</p>
+        <p className={styles.item__property}>Mass: {person?.mass}</p>
         <p className={styles.item__property}>
-          Height: {personResponse?.height}
-        </p>
-        <p className={styles.item__property}>Mass: {personResponse?.mass}</p>
-        <p className={styles.item__property}>
-          Hair color: {personResponse?.hair_color}
+          Hair color: {person?.hair_color}
         </p>
       </div>
     </div>
