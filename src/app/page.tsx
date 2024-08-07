@@ -1,4 +1,3 @@
-import ErrorBoundaryButton from '../components/ErrorBoundaryButton/ErrorBoundaryButton';
 import Flyout from '../components/Flyout/Flyout';
 import SearchBar from '../components/Search-bar/Search-bar';
 import ThemeButton from '../components/ThemeSwitcher/ThemeButton';
@@ -7,6 +6,7 @@ import { initialPage } from '../utils/constants';
 import { ThemeContainer } from '../components/ThemeContainer/ThemeContainer';
 import ResultsLoading from '../components/Loadings/Results-loading';
 import DetailedLoading from '../components/Loadings/Detailed-loading';
+import { ErrorBoundaryButton } from '../components/ErrorBoundaryButton/ErrorBoundaryButton';
 
 export default async function Page({
   searchParams,
