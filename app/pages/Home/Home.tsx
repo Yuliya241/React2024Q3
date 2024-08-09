@@ -7,9 +7,10 @@ import ThemeButton from '../../components/ThemeSwitcher/ThemeButton';
 import { initialPage, useThemeContext } from '../../utils/constants';
 import Flyout from '../../components/Flyout/Flyout';
 import ErrorBoundaryButton from '../../components/ErrorBoundaryButton/ErrorBoundaryButton';
-import { useLoaderData, useLocation } from '@remix-run/react';
+import { useLoaderData, useLocation, useNavigation } from '@remix-run/react';
 import { Person, PersonResponse } from '../../interfaces/interfaces';
 import Detailed from '../Detailed/Detailed';
+import Spinner from '../../components/Spinner/Spinner';
 
 export default function Home() {
   const { isDark } = useThemeContext();
@@ -23,6 +24,9 @@ export default function Home() {
   const { people, person }: { people: PersonResponse; person: Person } =
     useLoaderData();
 
+  const navigation = useNavigation();
+  const isLoading = navigation.state === 'loading';
+
   return (
     <main
       className={`${isDark === LocalStorageValues.DARK ? `${styles.main} ${styles.dark}` : `${styles.main}`}`}
@@ -33,7 +37,9 @@ export default function Home() {
           <ErrorBoundaryButton />
         </div>
         <SearchBar searchValue={search} />
-        {people.results ? (
+        {isLoading ? (
+          <Spinner />
+        ) : people.results ? (
           <div className={styles.wrapper}>
             <div
               className={
