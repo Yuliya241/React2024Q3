@@ -17,5 +17,6 @@ describe('tests for the ThemeButton component', () => {
     const themeButton = await screen.findByTestId('theme-button');
     await userEvent.click(themeButton);
     waitFor(() => expect(themeButton).toHaveTextContent('🌙'));
+    waitFor(() => expect(themeButton).toHaveTextContent('☀️'));
   });
 });
