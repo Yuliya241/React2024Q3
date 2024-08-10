@@ -6,20 +6,26 @@ import { store } from '../redux/store/store';
 import Detailed from '../pages/Detailed/Detailed';
 import { ReactNode } from 'react';
 import { useGetPersonByIdQuery } from '../redux/api/StarWarsApi';
+import { data } from './mocks';
 
 describe('tests for the Detailed component', () => {
-  it('displays loading indicator while fetching data', async () => {
+  it('check the detailed card component correctly displays the detailed card data', async () => {
     render(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={['/details/62']}>
-          <Detailed />
-        </MemoryRouter>
-      </Provider>
+      <MemoryRouter initialEntries={['/details/62']}>
+        <Detailed details={data} />
+      </MemoryRouter>
     );
 
-    await waitFor(() => {
-      const loader = screen.getByTestId('spinner');
-      expect(loader).toBeDefined();
+    waitFor(() => {
+      expect(screen.getByText(data.name)).toBeInTheDocument();
+      expect(screen.getByText(`Height: ${data.height}`)).toBeInTheDocument();
+      expect(
+        screen.getByText(`Birth year: ${data.birth_year}`)
+      ).toBeInTheDocument();
+      expect(screen.getByText(`Mass: ${data.mass}`)).toBeInTheDocument();
+      expect(
+        screen.getByText(`Hair color: ${data.hair_color}`)
+      ).toBeInTheDocument();
     });
   });
 

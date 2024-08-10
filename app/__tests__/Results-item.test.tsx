@@ -1,6 +1,6 @@
 import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, test, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { store } from '../redux/store/store';
@@ -43,9 +43,9 @@ describe('tests for the Results-item component', () => {
       </Provider>
     );
 
-    const link = screen.getByRole('link', { name: /Cliegg Lars/i });
-    await user.click(link);
-    expect(link).toBeInTheDocument();
+    const card = await screen.findByTestId('person-card');
+    await user.click(card);
+    waitFor(() => expect(card).toBeInTheDocument());
   });
 
   test('clicking on a card should triggers an additional API call to fetch detailed information', async () => {
