@@ -3,13 +3,21 @@ import { defineConfig } from 'vite';
 import { vitePlugin as remix } from '@remix-run/dev';
 
 export default defineConfig({
-  plugins: [remix()],
+  plugins: [
+    remix({
+      future: {
+        v3_fetcherPersist: true,
+        v3_relativeSplatPath: true,
+        v3_throwAbortReason: true,
+      },
+    }),
+  ],
   test: {
     coverage: {
       provider: 'v8',
       reporter: ['text'],
-      include: ['src'],
-      exclude: ['src/utils'],
+      include: ['app'],
+      exclude: ['app/utils'],
     },
     globals: true,
     environment: 'jsdom',

@@ -10,6 +10,9 @@ import { ThemeProvider } from './context/ThemeProvider';
 import { Provider } from 'react-redux';
 import { store } from './redux/store/store';
 import { LinksFunction, MetaFunction } from '@remix-run/node';
+import { isRouteErrorResponse, useRouteError } from '@remix-run/react';
+import PageNotFound from './routes/$';
+import { ErrorBoundaryFallback } from './components/ErrorBoundary/ErrorBoundary';
 
 export const meta: MetaFunction = () => {
   return [{ title: 'Remix app | Star Wars' }];
@@ -45,4 +48,14 @@ export default function App() {
       </Provider>
     </ThemeProvider>
   );
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+
+  if (isRouteErrorResponse(error)) {
+    return <PageNotFound />;
+  }
+
+  return <ErrorBoundaryFallback />;
 }
