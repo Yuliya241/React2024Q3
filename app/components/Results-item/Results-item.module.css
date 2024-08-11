@@ -1,0 +1,38 @@
+.item {
+  padding: 1rem;
+  font-weight: 900;
+  font-size: 1.3rem;
+  color: #3e326a;
+  min-width: 18rem;
+  background-color: white;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  flex-direction: column;
+  display: flex;
+  row-gap: 0.2rem;
+  cursor: pointer;
+  transition: all 0.15s ease-out;
+}
+
+.item__name {
+  text-align: center;
+}
+
+.item__input {
+  margin: 0 0 0 auto;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 0.5rem;
+}
+
+.item:hover {
+  background-color: #6bf9ecdb;
+}
+
+.item__property {
+  font-weight: 400;
+  font-size: 1.2rem;
+  color: #555555;
+  text-align: start;
+}
