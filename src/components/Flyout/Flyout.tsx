@@ -21,6 +21,7 @@ export default function Flyout() {
 
   return (
     <div
+      data-testid="flyout"
       className={`${isDark === LocalStorageValues.DARK ? `${styles.wrapper} ${styles.dark}` : `${styles.wrapper}`}`}
     >
       <p className={styles.text}>
@@ -28,7 +29,11 @@ export default function Flyout() {
         {selectedCount === 1 ? ' item is ' : ' items are '}selected
       </p>
       <div className={styles.buttons}>
-        <button className={styles.button} onClick={clearAll}>
+        <button
+          className={styles.button}
+          data-testid="unselect-all"
+          onClick={clearAll}
+        >
           Unselect all
         </button>
         <a

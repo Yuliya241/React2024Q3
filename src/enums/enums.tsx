@@ -16,3 +16,9 @@ export const enum ErrorBoundaryValues {
 export const enum Api {
   url = 'https://swapi.dev/api/people/',
 }
+
+export const enum RouterEvent {
+  START = 'routeChangeStart',
+  COMPLETE = 'routeChangeComplete',
+  ERROR = 'routeChangeError',
+}

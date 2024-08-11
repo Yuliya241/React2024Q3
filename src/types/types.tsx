@@ -5,10 +5,6 @@ export type SearchResultsProps = {
   data: PersonResponse;
 };
 
-export type SearchProps = {
-  onSearch: (value: string) => void;
-};
-
 export type Props = {
   children?: ReactNode;
 };
@@ -19,4 +15,9 @@ export type State = {
 
 export type ThemeProps = {
   children: ReactNode;
+};
+
+export type PaginationProps = {
+  currentPage: number;
+  count: number;
 };

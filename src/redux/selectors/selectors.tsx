@@ -1,12 +1,6 @@
 import { Person } from '../../interfaces/interfaces';
 import { RootState } from '../store/store';
 
-export const selectSearch = () => (state: RootState) => state.search.search;
-
-export const selectPage = () => (state: RootState) => state.search.page;
-
-export const selectTotal = () => (state: RootState) => state.search.total;
-
 export const selectSelectedPeople = () => (state: RootState) =>
   state.selected.selectedPeople;
 

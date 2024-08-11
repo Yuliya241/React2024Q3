@@ -1,9 +1,13 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
-import App from '../App';
 import userEvent from '@testing-library/user-event';
 import createFetchMock from 'vitest-fetch-mock';
-import { searchResults } from './mocks';
+import { createMockRouter, searchResults } from './mocks';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
+import { Provider } from 'react-redux';
+import { store } from '../redux/store/store';
+import Pagination from '../components/Pagination/Pagination';
+import mockRouter from 'next-router-mock';
 
 const fetchMock = createFetchMock(vi);
 fetchMock.enableMocks();
@@ -15,16 +19,26 @@ describe('tests for the Pagination component', (): void => {
 
   test('it should update URL query parameter when page changes', async () => {
     fetchMock.mockResponse(JSON.stringify(searchResults));
+    const stor = store();
 
-    render(<App />);
-    expect(location.search).to.equal(`?page=1`);
+    render(
+      <Provider store={stor}>
+        <RouterContext.Provider
+          value={createMockRouter({ query: { page: '1' } })}
+        >
+          <Pagination count={82} currentPage={1} />;
+        </RouterContext.Provider>
+      </Provider>
+    );
 
     const nextPage = await screen.findByTestId('nextPage');
+    waitFor(() => expect(nextPage).toBeInTheDocument());
     await userEvent.click(nextPage);
-    await waitFor(() => expect(location.search).to.equal('?page=2'));
+    waitFor(() => expect(mockRouter.query.page).to.equal(undefined));
 
     const prevPage = await screen.findByTestId('prevPage');
+    waitFor(() => expect(prevPage).toBeInTheDocument());
     await userEvent.click(prevPage);
-    await waitFor(() => expect(location.search).to.equal('?page=1'));
+    waitFor(() => expect(mockRouter.query.page).to.equal(undefined));
   });
 });

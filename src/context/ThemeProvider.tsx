@@ -5,7 +5,9 @@ import { ThemeProps } from '../types/types';
 
 export const ThemeProvider = ({ children }: ThemeProps) => {
   const [isDark, setIsDark] = useState(() => {
-    const initialTheme = localStorage.getItem(LocalStorageKeys.THEME);
+    const initialTheme =
+      typeof window !== 'undefined' &&
+      localStorage.getItem(LocalStorageKeys.SEARCH);
     return initialTheme ? initialTheme : LocalStorageValues.LIGHT;
   });
 
@@ -15,7 +17,10 @@ export const ThemeProvider = ({ children }: ThemeProps) => {
         prev === LocalStorageValues.LIGHT
           ? LocalStorageValues.DARK
           : LocalStorageValues.LIGHT;
-      localStorage.setItem(LocalStorageKeys.THEME, newTheme);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(LocalStorageKeys.THEME, newTheme);
+      }
+
       return newTheme;
     });
   };

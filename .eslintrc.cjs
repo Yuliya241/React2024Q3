@@ -23,5 +23,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'error',
     'react-compiler/react-compiler': 'error',
     'prettier/prettier': 'error',
+    'no-extra-boolean-cast': 'off',
+    'react-refresh/only-export-components': 'off',
   },
 };

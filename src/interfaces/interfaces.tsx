@@ -32,9 +32,6 @@ export interface ContextTheme {
 export interface SearchState {
   people: Person[];
   search: string | null;
-  page: number;
-  limit: number;
-  total: number;
 }
 
 export interface SelectedState {

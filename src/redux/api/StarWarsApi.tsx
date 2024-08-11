@@ -18,4 +18,8 @@ export const starWarsApi = createApi({
   }),
 });
 
-export const { useGetAllPeopleQuery, useGetPersonByIdQuery } = starWarsApi;
+export const {
+  useGetAllPeopleQuery,
+  useGetPersonByIdQuery,
+  util: { getRunningQueriesThunk },
+} = starWarsApi;

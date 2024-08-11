@@ -1,12 +1,12 @@
-import { Link } from 'react-router-dom';
-import styles from './Not-found.module.css';
+import Link from 'next/link';
+import styles from './styles.module.css';
 
 export default function NotFound() {
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper__notfound}>
       <p className={styles.image}>404</p>
       <span className={styles.text}>Sorry, the page is Not Found</span>
-      <Link to="/" className={styles.button}>
+      <Link href="/" className={styles.button}>
         GO HOME
       </Link>
     </div>
