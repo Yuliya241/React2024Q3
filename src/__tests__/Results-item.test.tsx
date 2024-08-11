@@ -1,17 +1,26 @@
-import { afterEach, describe, expect, test, vi } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { store } from '../redux/store/store';
 import ResultsItem from '../components/Results-item/Results-item';
 import { createMockRouter, data } from './mocks';
-import mockRouter from 'next-router-mock';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 
-vi.mock('next/router', async () => await vi.importActual('next-router-mock'));
+const { useRouter } = vi.hoisted(() => {
+  const mockedRouterPush = vi.fn();
+  return {
+    useRouter: () => ({ push: mockedRouterPush }),
+    mockedRouterPush,
+  };
+});
 
-afterEach(() => {
-  mockRouter.push('/');
+vi.mock('next/navigation', async () => {
+  const actual = await vi.importActual('next/navigation');
+  return {
+    ...actual,
+    useRouter,
+  };
 });
 
 describe('tests for the Results-item component', () => {

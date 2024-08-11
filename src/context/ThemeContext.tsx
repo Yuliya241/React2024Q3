@@ -1,3 +1,5 @@
+'use client';
+
 import { createContext } from 'react';
 import { ContextTheme } from '../interfaces/interfaces';
 import { LocalStorageValues } from '../enums/enums';

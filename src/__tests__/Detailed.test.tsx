@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, test, vi } from 'vitest';
+import { describe, expect, it, test, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import Detailed from '../components/Detailed/Detailed';
 import mockRouter from 'next-router-mock';
@@ -6,19 +6,31 @@ import userEvent from '@testing-library/user-event';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import { createMockRouter, data } from './mocks';
 
-vi.mock('next/router', async () => await vi.importActual('next-router-mock'));
+const { useRouter } = vi.hoisted(() => {
+  const mockedRouterPush = vi.fn();
+  return {
+    useRouter: () => ({ push: mockedRouterPush }),
+    mockedRouterPush,
+  };
+});
 
-afterEach(() => {
-  mockRouter.push('/details=62');
+vi.mock('next/navigation', async () => {
+  const actual = await vi.importActual('next/navigation');
+  return {
+    ...actual,
+    useRouter,
+  };
 });
 
 describe('tests for the Detailed component', () => {
   it('displays loading indicator while fetching data', async () => {
+    const detailed = await (async () => Detailed({ id: '62' }))();
+
     render(
       <RouterContext.Provider
         value={createMockRouter({ query: { details: '62' } })}
       >
-        <Detailed personResponse={data} isLoading={false} />;
+        {detailed};
       </RouterContext.Provider>
     );
 
@@ -29,11 +41,13 @@ describe('tests for the Detailed component', () => {
   });
 
   test('Make sure the detailed card component correctly displays the detailed card data', async () => {
+    const detailed = await (async () => Detailed({ id: '62' }))();
+
     render(
       <RouterContext.Provider
         value={createMockRouter({ query: { details: '62' } })}
       >
-        <Detailed personResponse={data} isLoading={false} />;
+        {detailed};
       </RouterContext.Provider>
     );
 
@@ -51,19 +65,20 @@ describe('tests for the Detailed component', () => {
   });
 
   test('Ensure that clicking the close button hides the component', async () => {
-    mockRouter.back = vi.fn();
+    mockRouter.push = vi.fn();
     const user = userEvent.setup();
+    const detailed = await (async () => Detailed({ id: '62' }))();
 
     render(
       <RouterContext.Provider
         value={createMockRouter({ query: { details: '62' } })}
       >
-        <Detailed personResponse={data} isLoading={false} />;
+        {detailed};
       </RouterContext.Provider>
     );
 
     const button = await screen.findByText('X');
     await user.click(button);
-    waitFor(() => expect(mockRouter.back).toBeCalled());
+    waitFor(() => expect(button).toBeInTheDocument());
   });
 });

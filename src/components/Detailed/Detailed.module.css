@@ -18,7 +18,7 @@
 .item__card.active {
   align-items: center;
   background-color: #bde9a5db;
-  padding: 5rem 1rem;
+  padding: 5rem 3rem;
   margin: 0 auto;
 }
 
@@ -33,20 +33,10 @@
   text-align: start;
 }
 
-.item__button {
-  width: 1.5rem;
-  height: 1.5rem;
-  text-align: center;
-  background: #ea4c81;
-  color: #ffffff;
-  font-size: 1rem;
-  border: 2px solid #ffffff;
-  cursor: pointer;
-  align-self: flex-end;
-  transition: all 0.2s ease;
-}
-
 .wrapper {
-  flex-basis: 40%;
-  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
 }

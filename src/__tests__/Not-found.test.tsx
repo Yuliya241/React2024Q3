@@ -1,14 +1,24 @@
-import { afterEach, describe, expect, it, vi } from 'vitest';
-import NotFound from '../pages/404';
+import { describe, expect, it, vi } from 'vitest';
 import { createMockRouter } from './mocks';
-import mockRouter from 'next-router-mock';
 import { render, screen, waitFor } from '@testing-library/react';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
+import NotFound from '../app/not-found';
 
-afterEach(() => {
-  mockRouter.push('/');
+const { useRouter } = vi.hoisted(() => {
+  const mockedRouterPush = vi.fn();
+  return {
+    useRouter: () => ({ push: mockedRouterPush }),
+    mockedRouterPush,
+  };
 });
-vi.mock('next/router', async () => await vi.importActual('next-router-mock'));
+
+vi.mock('next/navigation', async () => {
+  const actual = await vi.importActual('next/navigation');
+  return {
+    ...actual,
+    useRouter,
+  };
+});
 
 describe('tests for the NotFound page', () => {
   it('displays message if necessary page is not found', () => {

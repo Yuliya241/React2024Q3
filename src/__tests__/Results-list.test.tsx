@@ -1,4 +1,4 @@
-import { describe, test, expect, it } from 'vitest';
+import { describe, test, expect, it, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import { store } from '../redux/store/store';
 import ResultsList from '../components/Results-list/Results-list';
@@ -6,6 +6,22 @@ import { createMockRouter, searchResults } from './mocks';
 import userEvent from '@testing-library/user-event';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import { Provider } from 'react-redux';
+
+const { useRouter } = vi.hoisted(() => {
+  const mockedRouterPush = vi.fn();
+  return {
+    useRouter: () => ({ push: mockedRouterPush }),
+    mockedRouterPush,
+  };
+});
+
+vi.mock('next/navigation', async () => {
+  const actual = await vi.importActual('next/navigation');
+  return {
+    ...actual,
+    useRouter,
+  };
+});
 
 describe('tests for the ResultsList component', (): void => {
   test('the component renders the specified number of cards', async () => {
@@ -16,7 +32,7 @@ describe('tests for the ResultsList component', (): void => {
         <RouterContext.Provider
           value={createMockRouter({ query: { search: 'dddd' } })}
         >
-          <ResultsList results={searchResults.results} isLoading={false} />;
+          <ResultsList results={searchResults.results} />;
         </RouterContext.Provider>
       </Provider>
     );
@@ -36,7 +52,7 @@ describe('tests for the ResultsList component', (): void => {
         <RouterContext.Provider
           value={createMockRouter({ query: { search: 'dddd' } })}
         >
-          <ResultsList results={searchResults.results} isLoading={false} />;
+          <ResultsList results={searchResults.results} />;
         </RouterContext.Provider>
       </Provider>
     );

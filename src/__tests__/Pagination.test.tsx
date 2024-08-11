@@ -1,24 +1,31 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import { beforeEach, describe, expect, test, vi } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
-import createFetchMock from 'vitest-fetch-mock';
-import { createMockRouter, searchResults } from './mocks';
+import { createMockRouter } from './mocks';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import { Provider } from 'react-redux';
 import { store } from '../redux/store/store';
 import Pagination from '../components/Pagination/Pagination';
 import mockRouter from 'next-router-mock';
 
-const fetchMock = createFetchMock(vi);
-fetchMock.enableMocks();
+const { useRouter } = vi.hoisted(() => {
+  const mockedRouterPush = vi.fn();
+  return {
+    useRouter: () => ({ push: mockedRouterPush }),
+    mockedRouterPush,
+  };
+});
+
+vi.mock('next/navigation', async () => {
+  const actual = await vi.importActual('next/navigation');
+  return {
+    ...actual,
+    useRouter,
+  };
+});
 
 describe('tests for the Pagination component', (): void => {
-  beforeEach((): void => {
-    fetchMock.resetMocks();
-  });
-
   test('it should update URL query parameter when page changes', async () => {
-    fetchMock.mockResponse(JSON.stringify(searchResults));
     const stor = store();
 
     render(

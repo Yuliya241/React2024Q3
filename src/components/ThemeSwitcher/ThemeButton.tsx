@@ -1,6 +1,8 @@
+'use client';
+
 import styles from './ThemeButton.module.css';
 import { LocalStorageValues } from '../../enums/enums';
-import { useThemeContext } from '../../utils/constants';
+import { useThemeContext } from '../../context/ThemeProvider';
 
 export default function ThemeButton() {
   const { isDark, toggleTheme } = useThemeContext();

@@ -1,0 +1,12 @@
+.item__button {
+  width: 1.5rem;
+  height: 1.5rem;
+  text-align: center;
+  background: #ea4c81;
+  color: #ffffff;
+  font-size: 1rem;
+  border: 2px solid #ffffff;
+  cursor: pointer;
+  align-self: flex-end;
+  transition: all 0.2s ease;
+}

@@ -1,3 +1,5 @@
+'use client';
+
 import { Person } from '../../interfaces/interfaces';
 import styles from './Results-item.module.css';
 import { useAppDispatch, useAppSelector } from '../../redux/store/store';
@@ -6,12 +8,15 @@ import {
   addSelectedPerson,
   removeSelectedPerson,
 } from '../../redux/slices/selectedSlice';
-import { useRouter } from 'next/router';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 export default function ResultsItem(props: Person) {
   const { name, birth_year, height, mass, hair_color, url } = props;
   const id = url.split('/').filter(Boolean).slice(-1).join('');
-  const { push, query } = useRouter();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+  const params = new URLSearchParams(searchParams);
 
   const dispatch = useAppDispatch();
   const isSelected = useAppSelector(selectSelectedPerson(id));
@@ -23,7 +28,8 @@ export default function ResultsItem(props: Person) {
   };
 
   const openDetailed = () => {
-    push({ query: { ...query, details: id } });
+    params.set('details', id);
+    router.push(`${pathname}?${params.toString()}`);
   };
 
   return (
