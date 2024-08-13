@@ -18,7 +18,7 @@ export default tseslint.config({
     react,
     'react-hooks': reactHooks,
     'react-refresh': reactRefresh,
-    'prettier': eslintPluginPrettier,
+    prettier: eslintPluginPrettier,
   },
   rules: {
     ...reactHooks.configs.recommended.rules,
@@ -29,4 +29,4 @@ export default tseslint.config({
     '@typescript-eslint/no-explicit-any': 'error',
     'prettier/prettier': 'error',
   },
-})
+});
