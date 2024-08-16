@@ -1,10 +1,11 @@
 import { FormEvent, useRef } from 'react';
-import styles from './Uncontrolled-form.module.css';
+import styles from './forms.module.css';
 import { FormData } from '../../interfaces/interfaces';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { setFormData } from '../../store/reducers/formSlice';
 import { useNavigate } from 'react-router-dom';
 import { selectCountries } from '../../store/selectors/selectors';
+import { convertImageToBase64 } from '../../utils/convertImage';
 
 export default function UnControlledForm() {
   const nameInput = useRef<HTMLInputElement>(null);
@@ -49,28 +50,12 @@ export default function UnControlledForm() {
     }
     dispatch(setFormData({ ...newFormData, picture: convertedImage }));
     navigate('/');
-    console.log(countries);
-  };
-
-  const convertImageToBase64 = (
-    file: File
-  ): Promise<string | ArrayBuffer | null> => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
   };
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
       <fieldset className={styles.form__fieldset}>
-        <legend className={styles.form__title}>Uncontrolled form</legend>
+        <h2 className={styles.form__title}>Uncontrolled form</h2>
         <div className={styles.form__wrapper}>
           <label htmlFor="name">Name</label>
           <input

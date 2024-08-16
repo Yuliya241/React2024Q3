@@ -17,3 +17,15 @@ export interface FormData {
 export interface FormsState {
   forms: FormData[];
 }
+
+export type FormControlled = {
+  name: string;
+  age: number;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  gender: string | undefined;
+  agreement: boolean;
+  picture?: string | ArrayBuffer | null | undefined | FileList;
+  country: string | undefined;
+};

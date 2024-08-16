@@ -1,5 +1,5 @@
 .form {
-  margin: 2rem 0 4rem 0;
+  padding: 2rem 0 4rem 0;
 }
 
 .form__wrapper {
@@ -18,8 +18,9 @@
 .form__input {
   padding: 0.5rem;
   border-radius: 0.5rem;
-  color: rgb(68 7 207);
+  color: #000000;
   font-size: 1rem;
+  border: none;
 }
 
 .form__button {
@@ -39,12 +40,16 @@
 }
 
 .form__fieldset {
+  color: #000000;
   border: none;
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
   width: 40%;
   margin: 0 auto;
+  padding: 1rem;
+  border-radius: 1rem;
+  background-color: #e1f1f1;
 }
 
 .form__radio {

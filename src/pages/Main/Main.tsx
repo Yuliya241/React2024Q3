@@ -3,13 +3,20 @@ import { useAppSelector } from '../../store/store';
 import styles from './Main.module.css';
 
 export default function Main() {
-  const form = useAppSelector(selectForm());
+  const forms = useAppSelector(selectForm());
 
   return (
     <div className={styles.wrapper}>
-      {form &&
-        form.map((form, index) => (
-          <div className={styles.form__card} key={index}>
+      {forms.length ? (
+        forms.map((form, index) => (
+          <div
+            className={
+              index === forms.length - 1
+                ? `${styles.form__card} ${styles.last}`
+                : `${styles.form__card}`
+            }
+            key={index}
+          >
             <p className={styles.form__value}>
               <span className={styles.form__field}>Name: </span>
               {form.name}
@@ -47,7 +54,10 @@ export default function Main() {
               <img src={form.picture} alt="picture" />
             )}
           </div>
-        ))}
+        ))
+      ) : (
+        <p className={styles.empty}>No submitted forms...</p>
+      )}
     </div>
   );
 }
