@@ -31,21 +31,21 @@ export default function Main() {
               {form.confirmPassword}
             </p>
             <p className={styles.form__value}>
+              <span className={styles.form__field}>Country: </span>
+              {form.country}
+            </p>
+            <p className={styles.form__value}>
               <span className={styles.form__field}>Gender: </span>
               {form.gender}
             </p>
             <p className={styles.form__value}>
-              <span className={styles.form__field}>Agreement: </span>
+              <span className={styles.form__field}>T&C: </span>
               {form.agreement}
             </p>
             <p className={styles.form__field}>Picture:</p>
             {typeof form.picture === 'string' && (
               <img src={form.picture} alt="picture" />
             )}
-            <p className={styles.form__value}>
-              <span className={styles.form__field}>Country: </span>
-              {form.country}
-            </p>
           </div>
         ))}
     </div>

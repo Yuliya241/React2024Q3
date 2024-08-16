@@ -36,7 +36,7 @@ export default function UnControlledForm() {
         : femaleInput.current?.checked
           ? femaleInput.current?.value
           : '',
-      agreement: String(agreementInput.current?.checked),
+      agreement: agreementInput.current?.checked ? 'accepted' : '',
       picture: pictureInput.current?.files,
       country: countryInput.current?.value,
     };
@@ -126,6 +126,22 @@ export default function UnControlledForm() {
             ref={confirmPasswordInput}
           />
         </div>
+        <div className={styles.form__wrapper}>
+          <label htmlFor="country">Country</label>
+          <input
+            className={styles.form__input}
+            type="text"
+            id="country"
+            name="country"
+            list="countryList"
+            ref={countryInput}
+          />
+          <datalist id="countryList">
+            {countries.map((country) => (
+              <option key={country}>{country}</option>
+            ))}
+          </datalist>
+        </div>
         <fieldset className={styles.form__buttons}>
           <legend className={styles.form__gender}>Gender</legend>
           <div className={styles.form__radio}>
@@ -152,7 +168,18 @@ export default function UnControlledForm() {
           </div>
         </fieldset>
         <fieldset className={styles.form__buttons}>
-          <legend className={styles.form__gender}>Terms and Conditions</legend>
+          <label className={styles.form__picture} htmlFor="picture">
+            Upload picture
+          </label>
+          <input
+            type="file"
+            id="picture"
+            name="picture"
+            accept=".jpeg,.png"
+            ref={pictureInput}
+          />
+        </fieldset>
+        <fieldset className={styles.form__buttons}>
           <div className={styles.form__radio}>
             <input
               className={styles.form__input}
@@ -161,35 +188,9 @@ export default function UnControlledForm() {
               name="agreement"
               ref={agreementInput}
             />
-            <label htmlFor="agreement">I agree</label>
+            <label htmlFor="agreement">I agree with terms and conditions</label>
           </div>
         </fieldset>
-        <div className={styles.form__wrapper}>
-          <input
-            className={styles.form__input}
-            type="file"
-            id="picture"
-            name="picture"
-            accept=".jpeg,.png"
-            ref={pictureInput}
-          />
-        </div>
-        <div className={styles.form__wrapper}>
-          <label htmlFor="country">Country</label>
-          <input
-            className={styles.form__input}
-            type="text"
-            id="country"
-            name="country"
-            list="countryList"
-            ref={countryInput}
-          />
-          <datalist id="countryList">
-            {countries.map((country) => (
-              <option key={country}>{country}</option>
-            ))}
-          </datalist>
-        </div>
         <button className={styles.form__button} type="submit">
           Submit
         </button>
