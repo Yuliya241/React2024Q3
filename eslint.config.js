@@ -12,7 +12,7 @@ export default tseslint.config({
   ignores: ['dist', 'node_modules'],
   languageOptions: {
     ecmaVersion: 2020,
-    globals: { ...globals.browser, ...globals.es2020 },
+    globals: { ...globals.browser, ...globals.es2020, ...globals.node },
   },
   plugins: {
     react,

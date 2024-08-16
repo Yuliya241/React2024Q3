@@ -1,0 +1,27 @@
+.wrapper {
+  font-size: 1rem;
+  padding: 5rem;
+  display: flex;
+  justify-content: space-evenly;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.form__field {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #2e6ff2;
+}
+
+.form__value {
+  color: #000000;
+}
+
+.form__card {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  background-color: #b4bec8;
+  border-radius: 1rem;
+  row-gap: 0.5rem;
+}
