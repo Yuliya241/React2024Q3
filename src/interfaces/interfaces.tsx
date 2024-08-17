@@ -9,23 +9,11 @@ export interface FormData {
   password: string;
   confirmPassword: string;
   gender: string | undefined;
-  agreement: string;
-  picture?: string | ArrayBuffer | null | undefined | FileList;
+  agreement: boolean | string;
+  image?: FileList | undefined | null | string | ArrayBuffer;
   country: string | undefined;
 }
 
 export interface FormsState {
   forms: FormData[];
 }
-
-export type FormControlled = {
-  name: string;
-  age: number;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  gender: string | undefined;
-  agreement: boolean;
-  picture?: string | ArrayBuffer | null | undefined | FileList;
-  country: string | undefined;
-};

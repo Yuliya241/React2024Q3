@@ -16,7 +16,7 @@ export default function UnControlledForm() {
   const maleInput = useRef<HTMLInputElement>(null);
   const femaleInput = useRef<HTMLInputElement>(null);
   const agreementInput = useRef<HTMLInputElement>(null);
-  const pictureInput = useRef<HTMLInputElement>(null);
+  const imageInput = useRef<HTMLInputElement>(null);
   const countryInput = useRef<HTMLInputElement>(null);
 
   const dispatch = useAppDispatch();
@@ -38,17 +38,16 @@ export default function UnControlledForm() {
           ? femaleInput.current?.value
           : '',
       agreement: agreementInput.current?.checked ? 'accepted' : '',
-      picture: pictureInput.current?.files,
+      image: imageInput.current?.files,
       country: countryInput.current?.value,
     };
 
-    let convertedImage;
-    if (pictureInput.current?.files?.[0]) {
-      convertedImage = await convertImageToBase64(
-        pictureInput.current?.files[0]
-      );
-    }
-    dispatch(setFormData({ ...newFormData, picture: convertedImage }));
+    const convertedImage =
+      imageInput.current && imageInput.current.files
+        ? await convertImageToBase64(imageInput.current.files[0])
+        : '';
+
+    dispatch(setFormData({ ...newFormData, image: convertedImage }));
     navigate('/');
   };
 
@@ -153,16 +152,10 @@ export default function UnControlledForm() {
           </div>
         </fieldset>
         <fieldset className={styles.form__buttons}>
-          <label className={styles.form__picture} htmlFor="picture">
-            Upload picture
+          <label className={styles.form__picture} htmlFor="image">
+            Upload image
           </label>
-          <input
-            type="file"
-            id="picture"
-            name="picture"
-            accept=".jpeg,.png"
-            ref={pictureInput}
-          />
+          <input type="file" id="image" name="image" ref={imageInput} />
         </fieldset>
         <fieldset className={styles.form__buttons}>
           <div className={styles.form__radio}>

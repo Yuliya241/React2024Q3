@@ -49,9 +49,9 @@ export default function Main() {
               <span className={styles.form__field}>T&C: </span>
               {form.agreement}
             </p>
-            <p className={styles.form__field}>Picture:</p>
-            {typeof form.picture === 'string' && (
-              <img src={form.picture} alt="picture" />
+            <p className={styles.form__field}>Image:</p>
+            {typeof form.image === 'string' && (
+              <img src={form.image} alt="image" />
             )}
           </div>
         ))
