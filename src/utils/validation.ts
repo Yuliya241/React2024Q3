@@ -1,26 +1,26 @@
 import * as yup from 'yup';
 import { countryList } from '../data/countries';
+import { Errors } from '../types/types';
 
 export const schema = yup.object().shape({
   name: yup
     .string()
-    .required('Name is required')
-    .matches(/[A-Z]/, 'First letter should be uppercase'),
+    .matches(/[A-Z]/, 'First letter should be uppercase')
+    .required('Name is required'),
   age: yup
     .number()
-    .transform((value) => (Number.isNaN(value) ? null : value))
+    .transform((value, originalValue) => (originalValue === '' ? null : value))
     .nullable()
-    .positive('Age must be a positive number')
     .integer('Please enter a valid age')
+    .positive('Age must be a positive number')
     .required('Age is required'),
   email: yup
     .string()
     .email('Please enter a valid email')
-    .required('Email is required')
-    .matches(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g, 'Please enter a valid email'),
+    .matches(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g, 'Please enter a valid email')
+    .required('Email is required'),
   password: yup
     .string()
-    .required('Password is required')
     .matches(/^\S*$/, 'Password must not contain spaces')
     .matches(/\d/, 'Password must contain at least 1 number')
     .matches(/[A-Z]/, 'Password must contain at least 1 uppercase letter')
@@ -28,22 +28,22 @@ export const schema = yup.object().shape({
     .matches(
       /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/,
       'Password must contain at least one special character'
-    ),
+    )
+    .required('Password is required'),
   confirmPassword: yup
     .string()
-    .required('Please repeat password again')
-    .oneOf([yup.ref('password')], 'Passwords must match'),
+    .oneOf([yup.ref('password')], 'Passwords must match')
+    .required('Please repeat password again'),
   country: yup
     .string()
-    .required('Country is required')
-    .oneOf(countryList, 'Enter a valid country'),
+    .oneOf(countryList, 'Enter a valid country')
+    .required('Country is required'),
   gender: yup.string().required('Gender is required'),
   agreement: yup
     .boolean()
     .oneOf([true], 'You need to accept Terms and Conditions agreement'),
   image: yup
     .mixed()
-    .required('Image is required')
     .test(
       'fileFormat',
       'Only .png and .jpg/.jpeg files are allowed',
@@ -60,5 +60,18 @@ export const schema = yup.object().shape({
       'File size must be less than 3MB',
       (value) =>
         value instanceof FileList && value[0] && value[0].size <= 3145728
-    ),
+    )
+    .required('Image is required'),
 });
+
+export const getYupErrors = (errors: yup.ValidationError): Errors => {
+  const yupErrors: Errors = {};
+
+  errors.inner.forEach((error) => {
+    if (error.path !== undefined) {
+      yupErrors[error.path] = error.errors[0];
+    }
+  });
+
+  return yupErrors;
+};

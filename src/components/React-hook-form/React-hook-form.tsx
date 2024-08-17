@@ -7,9 +7,7 @@ import { setFormData } from '../../store/reducers/formSlice';
 import { convertImageToBase64 } from '../../utils/convertImage';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from '../../utils/validation';
-import * as yup from 'yup';
-
-export type FormType = yup.InferType<typeof schema>;
+import { FormType } from '../../types/types';
 
 export default function ReactHookForm() {
   const {

@@ -1,4 +1,4 @@
-import { FormEvent, useRef } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 import styles from './forms.module.css';
 import { FormData } from '../../interfaces/interfaces';
 import { useAppDispatch, useAppSelector } from '../../store/store';
@@ -6,6 +6,9 @@ import { setFormData } from '../../store/reducers/formSlice';
 import { useNavigate } from 'react-router-dom';
 import { selectCountries } from '../../store/selectors/selectors';
 import { convertImageToBase64 } from '../../utils/convertImage';
+import { getYupErrors, schema } from '../../utils/validation';
+import * as yup from 'yup';
+import { Errors } from '../../types/types';
 
 export default function UnControlledForm() {
   const nameInput = useRef<HTMLInputElement>(null);
@@ -22,6 +25,7 @@ export default function UnControlledForm() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const countries = useAppSelector(selectCountries());
+  const [errors, setErrors] = useState<Errors>({});
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -42,13 +46,21 @@ export default function UnControlledForm() {
       country: countryInput.current?.value,
     };
 
-    const convertedImage =
-      imageInput.current && imageInput.current.files
-        ? await convertImageToBase64(imageInput.current.files[0])
-        : '';
+    let convertedImage;
+    if (imageInput.current?.files?.[0]) {
+      convertedImage = await convertImageToBase64(imageInput.current?.files[0]);
+    }
 
-    dispatch(setFormData({ ...newFormData, image: convertedImage }));
-    navigate('/');
+    try {
+      await schema.validate(newFormData, { abortEarly: false });
+      dispatch(setFormData({ ...newFormData, image: convertedImage }));
+      navigate('/');
+    } catch (error) {
+      if (error instanceof yup.ValidationError) {
+        const errors = getYupErrors(error);
+        setErrors(errors);
+      }
+    }
   };
 
   return (
@@ -58,62 +70,71 @@ export default function UnControlledForm() {
         <div className={styles.form__wrapper}>
           <label htmlFor="name">Name</label>
           <input
-            className={styles.form__input}
+            className={`${errors?.name ? `${styles.form__input} ${styles.error}` : `${styles.form__input}`}`}
             type="text"
             id="name"
             placeholder="Name..."
             name="name"
             ref={nameInput}
           />
+          {errors.name && <p className={styles.form__error}>{errors.name}</p>}
         </div>
         <div className={styles.form__wrapper}>
           <label htmlFor="age">Age</label>
           <input
-            className={styles.form__input}
+            className={`${errors?.age ? `${styles.form__input} ${styles.error}` : `${styles.form__input}`}`}
             type="number"
             id="age"
             name="age"
             placeholder="Age..."
             ref={ageInput}
           />
+          {errors.age && <p className={styles.form__error}>{errors.age}</p>}
         </div>
         <div className={styles.form__wrapper}>
           <label htmlFor="email">Email</label>
           <input
-            className={styles.form__input}
+            className={`${errors?.email ? `${styles.form__input} ${styles.error}` : `${styles.form__input}`}`}
             type="email"
             id="email"
             name="email"
             placeholder="Email..."
             ref={emailInput}
           />
+          {errors.email && <p className={styles.form__error}>{errors.email}</p>}
         </div>
         <div className={styles.form__wrapper}>
           <label htmlFor="password">Password</label>
           <input
-            className={styles.form__input}
+            className={`${errors?.password ? `${styles.form__input} ${styles.error}` : `${styles.form__input}`}`}
             type="password"
             id="password"
             name="password"
             placeholder="Password..."
             ref={passwordInput}
           />
+          {errors.password && (
+            <p className={styles.form__error}>{errors.password}</p>
+          )}
         </div>
         <div className={styles.form__wrapper}>
           <label htmlFor="confirm-password">Confirm password</label>
           <input
-            className={styles.form__input}
+            className={`${errors?.confirmPassword ? `${styles.form__input} ${styles.error}` : `${styles.form__input}`}`}
             type="password"
             id="confirm-password"
             name="confirmPassword"
             placeholder="Confirm password..."
             ref={confirmPasswordInput}
           />
+          {errors.confirmPassword && (
+            <p className={styles.form__error}>{errors.confirmPassword}</p>
+          )}
         </div>
         <div className={styles.form__wrapper}>
           <label htmlFor="country">Country</label>
           <input
-            className={styles.form__input}
+            className={`${errors?.country ? `${styles.form__input} ${styles.error}` : `${styles.form__input}`}`}
             type="text"
             id="country"
             name="country"
@@ -125,12 +146,14 @@ export default function UnControlledForm() {
               <option key={country}>{country}</option>
             ))}
           </datalist>
+          {errors.country && (
+            <p className={styles.form__error}>{errors.country}</p>
+          )}
         </div>
-        <fieldset className={styles.form__buttons}>
-          <legend className={styles.form__gender}>Gender</legend>
+        <fieldset className={styles.form__genders}>
+          <legend className={styles.form__picture}>Gender</legend>
           <div className={styles.form__radio}>
             <input
-              className={styles.form__input}
               type="radio"
               id="male"
               name="gender"
@@ -141,7 +164,6 @@ export default function UnControlledForm() {
           </div>
           <div className={styles.form__radio}>
             <input
-              className={styles.form__input}
               type="radio"
               id="female"
               name="gender"
@@ -150,17 +172,20 @@ export default function UnControlledForm() {
             />
             <label htmlFor="female">female</label>
           </div>
+          {errors.gender && (
+            <p className={styles.form__error}>{errors.gender}</p>
+          )}
         </fieldset>
-        <fieldset className={styles.form__buttons}>
+        <fieldset className={styles.form__image}>
           <label className={styles.form__picture} htmlFor="image">
             Upload image
           </label>
           <input type="file" id="image" name="image" ref={imageInput} />
+          {errors.image && <p className={styles.form__error}>{errors.image}</p>}
         </fieldset>
-        <fieldset className={styles.form__buttons}>
+        <fieldset className={styles.form__agree}>
           <div className={styles.form__radio}>
             <input
-              className={styles.form__input}
               type="checkbox"
               id="agreement"
               name="agreement"
@@ -168,6 +193,9 @@ export default function UnControlledForm() {
             />
             <label htmlFor="agreement">I agree with terms and conditions</label>
           </div>
+          {errors.agreement && (
+            <p className={styles.form__error}>{errors.agreement}</p>
+          )}
         </fieldset>
         <button className={styles.form__button} type="submit">
           Submit
