@@ -9,6 +9,7 @@ import { convertImageToBase64 } from '../../utils/convertImage';
 import { getYupErrors, schema } from '../../utils/validation';
 import * as yup from 'yup';
 import { Errors } from '../../types/types';
+import PasswordStrength from '../../components/Password-strength/Password-strength';
 
 export default function UnControlledForm() {
   const nameInput = useRef<HTMLInputElement>(null);
@@ -26,6 +27,7 @@ export default function UnControlledForm() {
   const navigate = useNavigate();
   const countries = useAppSelector(selectCountries());
   const [errors, setErrors] = useState<Errors>({});
+  const [, setPassword] = useState('');
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -41,7 +43,7 @@ export default function UnControlledForm() {
         : femaleInput.current?.checked
           ? femaleInput.current?.value
           : '',
-      agreement: agreementInput.current?.checked ? 'accepted' : '',
+      agreement: String(agreementInput.current?.checked),
       image: imageInput.current?.files,
       country: countryInput.current?.value,
     };
@@ -53,7 +55,13 @@ export default function UnControlledForm() {
 
     try {
       await schema.validate(newFormData, { abortEarly: false });
-      dispatch(setFormData({ ...newFormData, image: convertedImage }));
+      dispatch(
+        setFormData({
+          ...newFormData,
+          image: convertedImage,
+        })
+      );
+      setPassword(passwordInput.current?.value || '');
       navigate('/');
     } catch (error) {
       if (error instanceof yup.ValidationError) {
@@ -113,6 +121,7 @@ export default function UnControlledForm() {
             placeholder="Password..."
             ref={passwordInput}
           />
+          <PasswordStrength password={passwordInput.current?.value || ''} />
           {errors.password && (
             <p className={styles.form__error}>{errors.password}</p>
           )}

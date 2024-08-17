@@ -6,7 +6,7 @@ export interface FormData {
   name: string;
   age: number;
   email: string;
-  password: string;
+  password: string | undefined;
   confirmPassword: string;
   gender: string | undefined;
   agreement: boolean | string;

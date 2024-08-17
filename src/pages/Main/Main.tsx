@@ -51,7 +51,7 @@ export default function Main() {
             </p>
             <p className={styles.form__field}>Image:</p>
             {typeof form.image === 'string' && (
-              <img src={form.image} alt="image" />
+              <img className={styles.image} src={form.image} alt="image" />
             )}
           </div>
         ))

@@ -4,8 +4,8 @@ import {
   Route,
 } from 'react-router-dom';
 import Main from '../pages/Main/Main';
-import UnControlledForm from '../components/Uncontrolled-form/Uncontrolled-form';
-import ReactHookForm from '../components/React-hook-form/React-hook-form';
+import UnControlledForm from '../pages/Uncontrolled-form/Uncontrolled-form';
+import ReactHookForm from '../pages/React-hook-form/React-hook-form';
 import Layout from '../components/Layout/Layout';
 import NotFound from '../pages/Not-found/Not-found';
 

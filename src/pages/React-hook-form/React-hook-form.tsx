@@ -8,12 +8,14 @@ import { convertImageToBase64 } from '../../utils/convertImage';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from '../../utils/validation';
 import { FormType } from '../../types/types';
+import PasswordStrength from '../../components/Password-strength/Password-strength';
 
 export default function ReactHookForm() {
   const {
     register,
     handleSubmit,
     getValues,
+    watch,
     formState: { errors, isValid },
   } = useForm<FormType>({
     resolver: yupResolver<FormType>(schema),
@@ -43,6 +45,7 @@ export default function ReactHookForm() {
         image: convertedImage,
       })
     );
+
     navigate('/');
   };
 
@@ -98,6 +101,7 @@ export default function ReactHookForm() {
             {...register('password')}
             placeholder="Password..."
           />
+          <PasswordStrength password={watch('password')} />
           {errors.password && (
             <p className={styles.form__error}>{errors.password?.message}</p>
           )}
