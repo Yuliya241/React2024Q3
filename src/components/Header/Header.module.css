@@ -1,0 +1,17 @@
+.link {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.link.active {
+  text-decoration: none;
+  color: #ffee00;
+}
+
+.header {
+  background-color: #5b6a60;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  column-gap: 1.5rem;
+}
